@@ -6,8 +6,6 @@ export type ButtonTypeStyleProps = {
     shadowWhite?: boolean
 }
 
-
-
 export const ContainerTouchable = styled(TouchableOpacity)<ButtonTypeStyleProps>`
     width: 180px;
     height: 45px;
@@ -17,9 +15,9 @@ export const ContainerTouchable = styled(TouchableOpacity)<ButtonTypeStyleProps>
     
     background-color: ${({theme, colorType}) => colorType === "PRIMARY" ? theme.COLORS.RUSSIAN_VIOLET : "#FFFFFF"};
 
-    border-top-width: 2px;
-    border-left-width: 2px;
-    border-right-width: 2px;
+    border-top-width: 1px;
+    border-left-width: 1px;
+    border-right-width: 1px;
     border-color: #ffffff;
     border-radius: 8px;
 `;
