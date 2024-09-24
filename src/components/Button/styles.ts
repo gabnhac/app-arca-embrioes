@@ -15,9 +15,9 @@ export const ContainerTouchable = styled(TouchableOpacity)<ButtonTypeStyleProps>
     
     background-color: ${({theme, colorType}) => colorType === "PRIMARY" ? theme.COLORS.RUSSIAN_VIOLET : "#FFFFFF"};
 
-    border-top-width: 1px;
-    border-left-width: 1px;
-    border-right-width: 1px;
+    border-top-width: 2.5px;
+    border-left-width: 0.5px;
+    border-right-width: 0.5px;
     border-color: #ffffff;
     border-radius: 8px;
 `;

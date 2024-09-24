@@ -15,13 +15,14 @@ export default function AuthRoutes(){
             }}
         >
             <Screen
-                name="presentation"
-                component={Presentation}
-            />
-            <Screen
                 name="signin"
                 component={SignIn}
             />
+            <Screen
+                name="presentation"
+                component={Presentation}
+            />
+            
             <Screen
                 name="signup"
                 component={SignUp}

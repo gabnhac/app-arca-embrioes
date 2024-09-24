@@ -1,7 +1,7 @@
 import Button from "@components/Button";
-import { Container, ImageBackground } from "./styles";
+import { Container, Footer, Header, ImageBackground, TextPresentation } from "./styles";
 import BackgroundImg from "@assets/pastoBackground.jpg"
-import CardAvatar from "@components/CardAvatar";
+import { CardLogoPresentation } from "@components/CardLogoPresentation/CardLogoPresentation";
 
 export default function Presentation(){
     return(
@@ -10,16 +10,15 @@ export default function Presentation(){
                 source={BackgroundImg}
                 alt="Pessoas treinando"
             />
-            <CardAvatar
-                size="LARGE"
-                img="https://github.com/gabnhac.png"
-                borderColor="#1A75BB"
-            />
+            <Header><CardLogoPresentation/></Header>
 
-            <Button
-                label="Próximo"
-                colorType="PRIMARY"
-            />
+            <Footer>
+                <TextPresentation>Plataforma criada com novo modo de monitorar seu material genético bovino</TextPresentation>
+                <Button
+                    label="Próximo"
+                    colorType="PRIMARY"
+                />
+            </Footer>
         </Container>
     )
 }

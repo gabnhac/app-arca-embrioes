@@ -3,7 +3,7 @@ import { ButtonTypeStyleProps, ContainerTouchable, Label } from "@components/But
 type Props = ButtonTypeStyleProps & {
     label: string
 }
-export default function ({label, colorType, shadowWhite, ...rest}: Props) {
+export default function ({label, colorType = 'PRIMARY', shadowWhite, ...rest}: Props) {
     return(
         <ContainerTouchable
             colorType={colorType}

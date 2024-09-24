@@ -1,8 +1,8 @@
-import { Image } from "react-native";
+import { Image, Text, View } from "react-native";
 import { AvatarTypeStyleProps, Container } from "./styles";
 
 type Props = AvatarTypeStyleProps & {
-    img?: string
+    img?: string;
 }
 
 export default function CardAvatar({ img, size, borderColor, ...rest }: Props) {
