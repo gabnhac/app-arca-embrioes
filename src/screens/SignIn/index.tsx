@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import { BoxLogo, Container, ContainerContent, TextForgotPass, WrapperForgotPass, WrapperForm} from "./styles";
 import ArcaLogo from "@assets/svgs/ArcaLogo";
 import Input from "@components/Input/Input";
@@ -12,33 +12,33 @@ export default function SignIn() {
         <Container>
             <ImageBackground
                 source={BackgroundImg}
-                alt="Pessoas treinando"
+                alt="Gado no pasto"
             />
-            <ContainerContent>
-                <BoxLogo>
-                    <ArcaLogo />
-                </BoxLogo>
-                <WrapperForm>
-                    <Input
-                        label="E-mail"
-                    />
+                <ScrollView style={{width: '100%', height: '100%'}} contentContainerStyle={{flexGrow: 1, justifyContent: 'center', alignItems: 'center', paddingBottom: 60}}>
+                    <ContainerContent>
+                        <BoxLogo>
+                            <ArcaLogo />
+                        </BoxLogo>
+                        <WrapperForm>
+                            <Input
+                                label="E-mail"
+                            />
                     
-                    <Input
-                        label="Senha"
-                        secureTextEntry
-                    />
-
-                    <WrapperForgotPass>
-                        <TextForgotPass>
-                            Esqueceu a Senha?
-                        </TextForgotPass>
-                    </WrapperForgotPass>
-                    <Button
-                        label="Entrar"
-                    />
-                </WrapperForm>
-            </ContainerContent>
-
+                            <Input
+                                label="Senha"
+                                secureTextEntry
+                            />
+                            <WrapperForgotPass>
+                                <TextForgotPass>
+                                    Esqueceu a Senha?
+                                </TextForgotPass>
+                            </WrapperForgotPass>
+                            <Button
+                                label="Entrar"
+                            />
+                        </WrapperForm>
+                    </ContainerContent>
+                </ScrollView>
         </Container>
     )
 }

@@ -5,18 +5,20 @@ export const Container = styled.View`
     flex: 1;
     justify-content: center;
     align-items: center;
-    background-color: gray;
-    
 
 `;
 
 export const ContainerContent = styled.View`
-    height: 50%;
+    height: 100%;
     width: 100%;
 
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
+
+    margin-top: 25%;
+
+    gap: 15px;
 `;
 
 export const BoxLogo = styled.View`
@@ -32,10 +34,9 @@ export const BoxLogo = styled.View`
 
 export const WrapperForm = styled.View`
     width: 80%;
-    height: 70%;
     flex-direction: column;
-    justify-content: space-around;
     align-items: center;
+    gap: 25px;
 `;
 
 export const WrapperForgotPass = styled.TouchableOpacity`

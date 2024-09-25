@@ -15,6 +15,10 @@ export default function AuthRoutes(){
             }}
         >
             <Screen
+                name="signup"
+                component={SignUp}
+            /> 
+            <Screen
                 name="signin"
                 component={SignIn}
             />
@@ -23,10 +27,7 @@ export default function AuthRoutes(){
                 component={Presentation}
             />
             
-            <Screen
-                name="signup"
-                component={SignUp}
-            /> 
+            
         </Navigator>
     )
 }

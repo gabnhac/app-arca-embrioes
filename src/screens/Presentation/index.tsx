@@ -8,7 +8,7 @@ export default function Presentation(){
         <Container>
             <ImageBackground
                 source={BackgroundImg}
-                alt="Pessoas treinando"
+                alt="Gado no pasto"
             />
             <Header><CardLogoPresentation/></Header>
 

@@ -13,7 +13,7 @@ export const InputField = styled(TextInput)`
     border: 1px solid #FFFFFF;
     border-radius: 5px;
 
-    padding: 10px;
+    padding: 8px;
 
     background-color: ${({theme}) => theme.COLORS.FRENCH_GRAY};
     
