@@ -1,12 +1,11 @@
 import { StatusBar, Text, View } from 'react-native';
-import { Roboto_400Regular, Roboto_700Bold, useFonts } from '@expo-google-fonts/roboto';
+import { Montserrat_400Regular, useFonts } from '@expo-google-fonts/montserrat';
 import { ThemeProvider } from 'styled-components/native';
 import theme from '@theme/index';
-import Presentation from '@screens/Presentation';
 import Routes from '@routes/index';
 
 export default function App() {
-  const [fontsLoaded] = useFonts({Roboto_400Regular, Roboto_700Bold});
+  const [fontsLoaded] = useFonts({Montserrat_400Regular});
   return (
     <ThemeProvider theme={theme}>
         <StatusBar

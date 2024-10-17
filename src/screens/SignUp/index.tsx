@@ -18,7 +18,8 @@ export default function SignUp() {
                 <ContainerContent>
                     <Title
                         title="Crie sua conta"
-                        type="BOLD"
+                        typeFontSize={30}
+                        typeFontWeight="BOLD"
                     />
                     <WrapperForm>
                         <Input

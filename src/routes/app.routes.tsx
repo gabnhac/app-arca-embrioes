@@ -18,13 +18,13 @@ export default function AppRoutes(){
                 component={Home}
             />
             <Screen
+                name="report"
+                component={Report}
+            />
+            <Screen
                 name="profile"
                 component={Profile}
             />
-            <Screen
-                name="report"
-                component={Report}
-            /> 
         </Navigator>
     )
 }

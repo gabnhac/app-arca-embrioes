@@ -5,7 +5,7 @@ import AuthRoutes from "./auth.routes";
 export default function Routes(){
     return(
         <NavigationContainer>
-            <AuthRoutes/>
+            <AppRoutes/>
         </NavigationContainer>
     )
 }

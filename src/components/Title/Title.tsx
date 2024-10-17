@@ -2,16 +2,17 @@ import React from "react";
 import { Container, TextTitle, TitleTypeStyleProps } from "./styles";
 
 
-type Props = {
+type Props = TitleTypeStyleProps & {
     title: string;
-    type?: TitleTypeStyleProps;
 }
 
-export default function Title({title, type = 'NORMAL'}: Props){
+export default function Title({title, typeFontSize, typeFontWeight = 'NORMAL', typeColor = 'WHITE'}: Props){
     return(
         <Container>
             <TextTitle
-                typeFontSize={type}
+                typeColor={typeColor}
+                typeFontSize={typeFontSize}
+                typeFontWeight={typeFontWeight}
             >{title}</TextTitle>
         </Container>
     )

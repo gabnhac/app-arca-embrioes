@@ -35,7 +35,7 @@ export const Container = styled(View)<AvatarTypeStyleProps>`
 
     ${({borderColor}) => 
         !!borderColor && css`
-            border-width: 5px;
+            border-width: 3px;
             
         `
     }

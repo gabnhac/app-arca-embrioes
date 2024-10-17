@@ -22,8 +22,6 @@ export const ContainerContent = styled.View`
 `;
 
 export const BoxLogo = styled.View`
-    width: 80%;
-    height: 130px;
     background-color: #FFFFFF;
 
     align-items: center;
@@ -33,7 +31,7 @@ export const BoxLogo = styled.View`
 `;
 
 export const WrapperForm = styled.View`
-    width: 80%;
+    width: 100%;
     flex-direction: column;
     align-items: center;
     gap: 25px;

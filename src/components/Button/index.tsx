@@ -9,7 +9,9 @@ export default function ({label, colorType = 'PRIMARY', shadowWhite, ...rest}: P
             colorType={colorType}
             shadowWhite={shadowWhite}
         >
-            <Label>
+            <Label
+                colorType={colorType}
+            >
                 {label}
             </Label>
         </ContainerTouchable>

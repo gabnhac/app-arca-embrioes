@@ -3,7 +3,7 @@ import { TextInput } from "react-native";
 import styled from "styled-components/native";
 
 export const Container = styled.View`
-   width: 100%;
+   width: 80%;
 
 `;
 
@@ -22,4 +22,5 @@ export const InputField = styled(TextInput)`
 export const LabelInput = styled.Text`
     padding: 10px 0;
     color: white;
+    font-family: ${({theme}) => theme.FONT_FAMILY.BODY};
 `;

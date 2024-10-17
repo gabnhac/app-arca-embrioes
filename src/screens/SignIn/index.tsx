@@ -35,6 +35,7 @@ export default function SignIn() {
                             </WrapperForgotPass>
                             <Button
                                 label="Entrar"
+                                shadowWhite
                             />
                         </WrapperForm>
                     </ContainerContent>
