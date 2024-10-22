@@ -8,36 +8,14 @@ export const Container = styled.View`
 export const WrapperHeader = styled.View`
     margin: 40px 0;
 
-    justify-content: flex-end;
+    justify-content: center;
     align-items: center;
+
+    gap: 10px;
 
     `;
 
-export const WrapperAvatar = styled.View`
-    margin-Top: 25px;
-    position: relative;
-`;
-
-export const EditImgButton = styled.TouchableOpacity`
-    width: 45px;
-    height: 45px;
-
-    background-color: ${({theme}) => theme.COLORS.RUSSIAN_VIOLET};
-    border: 1.5px solid #FFFFFF;
-    border-radius: 30px;
-    
-    opacity: 0.7;
-
-    align-items: center;
-    justify-content: center;
-
-    position: absolute;
-    bottom: 2px;
-    right: 2px;
-`;
-
 export const WrapperDate = styled.View`
-    margin-bottom: 10px;
     justify-content: center;
     align-items: center;
 

@@ -1,12 +1,30 @@
 import Button from "@components/Button";
-import { Container, Footer, Header, ImageBackground, TextPresentation } from "./styles";
+import { Container, Footer, Header, TextPresentation } from "./styles";
 import BackgroundImg from "@assets/pastoBackground.jpg"
 import { CardLogoPresentation } from "@components/CardLogoPresentation/CardLogoPresentation";
+import { useNavigation } from "@react-navigation/native";
+import { AuthNavigatorRoutesProps } from "@routes/auth.routes";
+import { Dimensions, Image } from "react-native";
 
 export default function Presentation(){
+    const navigation = useNavigation<AuthNavigatorRoutesProps>();
+
+    const { height, width } = Dimensions.get('window');
+
+    function handleNavigateSignIn(){
+        navigation.navigate("signin")
+    }
     return(
         <Container>
-            <ImageBackground
+            <Image
+                style={{
+                    width: width,
+                    height: height,
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    flex: 1,
+                }}
                 source={BackgroundImg}
                 alt="Gado no pasto"
             />
@@ -17,6 +35,8 @@ export default function Presentation(){
                 <Button
                     label="Próximo"
                     colorType="PRIMARY"
+                    shadowWhite
+                    onPress={handleNavigateSignIn}
                 />
             </Footer>
         </Container>

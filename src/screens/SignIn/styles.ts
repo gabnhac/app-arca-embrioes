@@ -3,21 +3,16 @@ import styled from "styled-components/native";
 
 export const Container = styled.View`
     flex: 1;
-    justify-content: center;
-    align-items: center;
-
+    padding: 5px 0;
+    
 `;
 
 export const ContainerContent = styled.View`
-    height: 100%;
-    width: 100%;
-
     flex-direction: column;
     justify-content: center;
     align-items: center;
 
-    margin-top: 25%;
-
+    margin-top: 60%;
     gap: 15px;
 `;
 
@@ -34,7 +29,7 @@ export const WrapperForm = styled.View`
     width: 100%;
     flex-direction: column;
     align-items: center;
-    gap: 25px;
+    gap: 30px;
 `;
 
 export const WrapperForgotPass = styled.TouchableOpacity`
