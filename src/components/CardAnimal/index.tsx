@@ -1,8 +1,8 @@
-import { Image, View } from "react-native";
+import { Image, TouchableOpacityProps, View } from "react-native";
 import { Container, InfoText, WrapperImage, WrapperInfo, WrapperInfoTexts } from "./styles";
 import Title from "@components/Title/Title";
 
-type Props = {
+type Props = TouchableOpacityProps & {
     raca: string;
     peso: number;
     idade: number;
@@ -10,9 +10,11 @@ type Props = {
 }
 //padronizar as raças posssíveis com enum
 //padronizar o brinco, que pode ser string | number
-export default function CardAnimal({raca, peso, idade, brinco}: Props){
+export default function CardAnimal({raca, peso, idade, brinco, ...rest}: Props){
     return(
-        <Container>
+        <Container
+            {...rest}
+        >
             <WrapperInfo>
                 <Title
                     title={raca}

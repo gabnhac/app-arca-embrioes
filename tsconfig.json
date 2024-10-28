@@ -11,7 +11,8 @@
       "@types/*": ["./src/types/*"],
       "@services/*": ["./src/services/*"],
       "@storage/*": ["./src/storage/*"],
-      "@theme/*": ["./src/theme/*"]
+      "@theme/*": ["./src/theme/*"],
+      "@store/*": ["./src/store/*"],
     }
   }
 }

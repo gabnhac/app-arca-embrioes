@@ -4,6 +4,8 @@ export const Container = styled.View`
     flex: 1;
     align-items: center;
     justify-content: flex-end;
+
+    background-color: ${({theme}) => theme.COLORS.FRENCH_GRAY};
 `;
 
 export const Window = styled.View`
@@ -17,16 +19,35 @@ export const Window = styled.View`
 `;
 
 export const Header = styled.View`
-    flex-direction: row;
+    margin: 15px 0;
     align-items: center;
-    justify-content: space-around;
+    justify-content: center;
+
+    gap: 5px;
 `;
 
 export const BodyInfo = styled.View`
-    
+    align-items: center;
+    justify-content: center;
+
+    padding: 0 15px;
+`;
+
+export const WrapperShortInfos = styled.View`
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+`;
+
+export const ShortInfo = styled.View`
+    width: 45%;
 `;
 
 export const TextInfo = styled.Text`
     font-family: ${({theme}) => theme.FONT_FAMILY.BODY};
-    font-size: 10px;
+    color: #FFFFFF;
+    font-size: 20px;
+    font-weight: 700;
 `;
