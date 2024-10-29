@@ -12,11 +12,11 @@ import { useNavigation } from "@react-navigation/native";
 import { AuthNavigatorRoutesProps } from "@routes/auth.routes";
 
 export default function SignIn() {
-    const { height, width } = Dimensions.get('window');
+    const { height, width } = Dimensions.get('screen');
 
     const navigation = useNavigation<AuthNavigatorRoutesProps>()
 
-    function handleNavigateSignUp(){
+    function handleNavigateSignUp() {
         navigation.navigate("signup");
     }
     return (
@@ -35,7 +35,7 @@ export default function SignIn() {
                     flex: 1,
                 }}
             />
-            <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false} contentContainerStyle={{paddingBottom: 30}}>
+            <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 30 }}>
                 <ContainerContent>
                     <BoxLogo>
                         <ArcaLogo />

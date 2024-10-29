@@ -9,7 +9,7 @@ import { useNavigation } from "@react-navigation/native";
 import { AuthNavigatorRoutesProps } from "@routes/auth.routes";
 
 export default function SignUp() {
-    const { height, width } = Dimensions.get('window');
+    const { height, width } = Dimensions.get('screen');
 
     const navigation = useNavigation<AuthNavigatorRoutesProps>();
 

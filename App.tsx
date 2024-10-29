@@ -7,18 +7,21 @@ import Routes from '@routes/index';
 
 import { store } from '@store/index'
 import { Provider } from 'react-redux'
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function App() {
   const [fontsLoaded] = useFonts({ Montserrat_400Regular });
   return (
     <ThemeProvider theme={theme}>
       <Provider store={store}>
-        <StatusBar
-          barStyle="light-content"
-          backgroundColor="transparent"
-          translucent
-        />
-        {fontsLoaded ? <Routes /> : <ActivityIndicator />}
+        <SafeAreaView style={{flex: 1}}>
+          <StatusBar
+            barStyle="dark-content"
+            backgroundColor="transparent"
+            translucent
+          />
+          {fontsLoaded ? <Routes /> : <ActivityIndicator style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}/>}
+        </SafeAreaView>
       </Provider>
     </ThemeProvider>
   );

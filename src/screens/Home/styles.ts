@@ -18,11 +18,13 @@ export const Header = styled.View`
 `;
 
 export const Categories = styled.View`
-
     flex-direction: row;
     align-items: center;
     justify-content: center;
+
     gap: 20px;
+
+    padding: 15px;
 `;
 
 export const WrapperTitle = styled.View`
@@ -35,8 +37,7 @@ export const WrapperTouchable = styled(TouchableOpacity)`
 `;
 
 export const Animals = styled.View`
-    height: 70%;
-    width: 100%;
+    flex: 1;
     align-items: center;
     justify-content: center;
 

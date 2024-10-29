@@ -26,7 +26,7 @@ export const BoxLogo = styled.View`
 `;
 
 export const WrapperForm = styled.View`
-    width: 100%;
+    width: 80%;
     flex-direction: column;
     align-items: center;
     gap: 30px;

@@ -1,20 +1,21 @@
 import Button from "@components/Button";
 import { Container, Footer, Header, TextPresentation } from "./styles";
-import BackgroundImg from "@assets/pastoBackground.jpg"
+import BackgroundImg from "@assets/pastoBackground.jpg";
 import { CardLogoPresentation } from "@components/CardLogoPresentation/CardLogoPresentation";
 import { useNavigation } from "@react-navigation/native";
 import { AuthNavigatorRoutesProps } from "@routes/auth.routes";
-import { Dimensions, Image } from "react-native";
+import { Dimensions, Image, View } from "react-native";
+import FundoLogin from "@assets/svgs/FundoLogin";
 
-export default function Presentation(){
+export default function Presentation() {
     const navigation = useNavigation<AuthNavigatorRoutesProps>();
 
-    const { height, width } = Dimensions.get('window');
+    const { height, width } = Dimensions.get('screen');
 
-    function handleNavigateSignIn(){
+    function handleNavigateSignIn() {
         navigation.navigate("signin")
     }
-    return(
+    return (
         <Container>
             <Image
                 style={{
@@ -28,7 +29,21 @@ export default function Presentation(){
                 source={BackgroundImg}
                 alt="Gado no pasto"
             />
-            <Header><CardLogoPresentation/></Header>
+            <Header>
+                <FundoLogin
+                    style={{position: 'absolute'}}
+                />
+
+                <View 
+                    style={{
+                        position: 'relative',
+                        top: 60
+                    }}
+                >
+                    <CardLogoPresentation />
+                </View>
+
+            </Header>
 
             <Footer>
                 <TextPresentation>Plataforma criada com novo modo de monitorar seu material genético bovino</TextPresentation>

@@ -6,18 +6,26 @@ import Button from "@components/Button";
 import { ScrollView } from "react-native";
 
 import AntDesign from '@expo/vector-icons/AntDesign';
+import BackOption from "@components/BackOption";
+import { useNavigation } from "@react-navigation/native";
+import { AppNavigatorRouteProps } from "@routes/app.routes";
 
 export default function Profile() {
+
+    const navigation = useNavigation<AppNavigatorRouteProps>();
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={false}>
             <Container>
+                <BackOption 
+                    onPress={() => navigation.goBack()}
+                />
                 <WrapperHeader>
                     <Title
                         title="Perfil"
-                        typeFontSize={30}
+                        typeFontSize={25}
                         typeFontWeight="BOLD"
                     />
-                    <AntDesign name="user" size={70} color="#FFFFFF" />
+                    <AntDesign name="user" size={60} color="#FFFFFF" />
 
                 </WrapperHeader>
                 <WrapperDate>

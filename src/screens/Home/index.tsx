@@ -4,7 +4,6 @@ import { FlatList, View } from "react-native";
 import { Container, Categories, WrapperTitle, Animals, WrapperTouchable, Header } from "./styles";
 import Title from "@components/Title/Title";
 import CardAnimal from "@components/CardAnimal";
-import CardSearch from "@components/CardSearch";
 
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRouteProps } from "@routes/app.routes";
@@ -12,8 +11,8 @@ import { AppNavigatorRouteProps } from "@routes/app.routes";
 import { animalState } from "@store/animal/types";
 import { useDispatch } from "react-redux";
 import { setAnimal } from "@store/animal/animalSlice"
-import HeaderMenu from "@components/HeaderMenu";
 import PopUpMenu from "@components/PopUpMenu";
+import ArcaLogoFundo from "@assets/svgs/ArcaLogoFundo";
 
 
 export default function Home() {
@@ -95,15 +94,15 @@ export default function Home() {
             raca: raca,
             sexo: sexo,
         }
-        dispatch(setAnimal( animalObj ))
+        dispatch(setAnimal(animalObj))
         navigation.navigate('animal_details')
     }
 
-    function handleChangeAnimalCategories(categoria: 'DOADORAS' | 'DOADORES'){
-        if(categoria === 'DOADORAS'){
+    function handleChangeAnimalCategories(categoria: 'DOADORAS' | 'DOADORES') {
+        if (categoria === 'DOADORAS') {
             setAnimais(dataDoadoras)
             setIsSelectedDoadoras(true);
-        }else{
+        } else {
             setAnimais(dataDoadores);
             setIsSelectedDoadoras(false);
         }
@@ -112,7 +111,13 @@ export default function Home() {
     return (
         <Container>
             <Header>
-                <PopUpMenu/>
+                <ArcaLogoFundo
+                    style={{ position: 'absolute' }}
+                />
+                <PopUpMenu />
+            </Header>
+
+            <Animals>
                 <Categories>
                     <WrapperTouchable
                         onPress={() => handleChangeAnimalCategories('DOADORAS')}
@@ -131,13 +136,10 @@ export default function Home() {
                             title="DOADORES"
                             typeFontSize={16}
                             typeFontWeight="BOLD"
-                            typeColor={isSelectedDoadoras ? 'WHITE' : 'VIOLET' }
+                            typeColor={isSelectedDoadoras ? 'WHITE' : 'VIOLET'}
                         />
                     </WrapperTouchable>
                 </Categories>
-            </Header>
-
-            <Animals>
                 <WrapperTitle>
                     <Title
                         title="ANIMAIS"

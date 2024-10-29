@@ -3,12 +3,12 @@ import styled from "styled-components/native";
 export const Container = styled.View`
     flex: 1;
     align-items: center;
-    justify-content: flex-end;
-
+    justify-content: space-between;
     background-color: ${({theme}) => theme.COLORS.FRENCH_GRAY};
 `;
 
 export const Window = styled.View`
+    
     background-color: ${({theme}) => theme.COLORS.RUSSIAN_VIOLET};
 
     width: 85%;

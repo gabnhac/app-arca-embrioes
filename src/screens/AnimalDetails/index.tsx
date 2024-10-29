@@ -7,8 +7,12 @@ import Title from "@components/Title/Title";
 
 import { useSelector } from "react-redux";
 import { selectAnimal } from "@store/animal/animalSlice";
+import BackOption from "@components/BackOption";
+import { useNavigation } from "@react-navigation/native";
+import { AppNavigatorRouteProps } from "@routes/app.routes";
 
 export default function AnimalDetails(){
+    const navigation = useNavigation<AppNavigatorRouteProps>();
     const style = theme;
 
     const {brinco, idade, material, nome, peso, raca, sexo} = useSelector(selectAnimal);
@@ -16,6 +20,9 @@ export default function AnimalDetails(){
 
     return(
         <Container>
+            <BackOption
+                onPress={() => navigation.goBack()}
+            />
             <Window>
                 <Header>
                     <CardAvatar

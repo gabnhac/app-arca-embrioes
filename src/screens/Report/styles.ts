@@ -14,7 +14,7 @@ export const WrapperTitle = styled.View`
 `;
 
 export const WrapperBody = styled.View`
-    height: 90%;
+    flex: 1;
     align-items: center;
     justify-content: center;
 `;

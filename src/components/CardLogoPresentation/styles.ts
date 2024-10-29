@@ -7,7 +7,9 @@ export const Container = styled.View`
 
     border-radius: 100px;
 
-    background-color: rgba(0,0,0, 0.4);
+    background-color:  rgba(10,23,55,0.5);
+   
+
 
     align-items: center;
     justify-content: center;
