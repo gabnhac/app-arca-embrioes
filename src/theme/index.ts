@@ -6,6 +6,7 @@ export default {
         POLINESIAN_BLUE: "#1A4583",
         INDIGO_DYE: "#11496E",
         ROYAL_BLUE_TRADITIONAL: "#22276E",
+        RED_500: "#F75A68",
     },
     FONT_FAMILY: {
         BODY: "Montserrat_400Regular",

@@ -13,6 +13,8 @@
       "@storage/*": ["./src/storage/*"],
       "@theme/*": ["./src/theme/*"],
       "@store/*": ["./src/store/*"],
+      "@dtos/*": ["./src/dtos/*"],
+      "@context/*": ["./src/context/*"],
     }
   }
 }

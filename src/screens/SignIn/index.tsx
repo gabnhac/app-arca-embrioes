@@ -10,14 +10,39 @@ import BackgroundImg from "@assets/pastoBackground.jpg";
 
 import { useNavigation } from "@react-navigation/native";
 import { AuthNavigatorRoutesProps } from "@routes/auth.routes";
+import { Controller, useForm } from "react-hook-form";
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+
+type FormDataprops = {
+    email: string;
+    password: string;
+}
+
+const signInSchema = yup.object({
+    email: yup.string().required('Informe o e-mail').email('E-mail inválido'),
+    password: yup.string().required('Informe a senha')
+})
 
 export default function SignIn() {
     const { height, width } = Dimensions.get('screen');
 
     const navigation = useNavigation<AuthNavigatorRoutesProps>()
 
+    const { control, handleSubmit, formState: { errors } } = useForm<FormDataprops>({
+        defaultValues: {
+            email: '',
+            password: ''
+        },
+        resolver: yupResolver(signInSchema)
+    });
+
     function handleNavigateSignUp() {
         navigation.navigate("signup");
+    }
+
+    function handleSingIn({ email, password }: FormDataprops) {
+        console.log({ email, password });
     }
     return (
         <Container>
@@ -41,18 +66,43 @@ export default function SignIn() {
                         <ArcaLogo />
                     </BoxLogo>
                     <WrapperForm>
-                        <Input
-                            label="E-mail"
-                        />
+                        <Controller
+                            name="email"
+                            control={control}
+                            render={({ field: { onChange, value } }) => (
+                                <Input
+                                    label="E-mail"
+                                    keyboardType="email-address"
+                                    autoCapitalize="none"
+                                    onChangeText={onChange}
+                                    value={value}
+                                    errorMessage={errors.email?.message}
+                                />
+                            )}
 
-                        <Input
-                            label="Senha"
-                            secureTextEntry
+                        />
+                        <Controller
+                            name="password"
+                            control={control}
+                            render={({ field: { onChange, value } }) => (
+                                <Input
+                                    label="password"
+                                    secureTextEntry
+                                    autoCapitalize="none"
+                                    onChangeText={onChange}
+                                    value={value}
+                                    onSubmitEditing={handleSubmit(handleSingIn)}
+                                    returnKeyType="send"
+                                    errorMessage={errors.password?.message}
+                                />
+                            )}
+
                         />
 
                         <Button
                             label="Entrar"
                             shadowWhite
+                            onPress={handleSubmit(handleSingIn)}
                         />
 
                         <Button

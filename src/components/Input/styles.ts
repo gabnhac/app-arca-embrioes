@@ -10,7 +10,7 @@ export const Container = styled.View`
 export const InputField = styled(TextInput)`
     border: 1px solid #FFFFFF;
     border-radius: 5px;
-    padding: 5px 7px;
+    padding: 5px 4px;
     background-color: ${({theme}) => theme.COLORS.FRENCH_GRAY};
     
     font-family: ${({theme}) => theme.FONT_FAMILY.BODY};
@@ -19,7 +19,11 @@ export const InputField = styled(TextInput)`
 `;
 
 export const LabelInput = styled.Text`
-    padding: 10px 0;
     color: white;
     font-family: ${({theme}) => theme.FONT_FAMILY.BODY};
+`;
+
+export const TextError = styled.Text`
+    color: ${({theme}) => theme.COLORS.RED_500};
+  
 `;
