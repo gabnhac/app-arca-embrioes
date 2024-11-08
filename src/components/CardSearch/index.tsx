@@ -6,7 +6,7 @@ export default function CardSearch(){
     return(
         <Container>
             <WrapperTextInput>
-                <Input/>
+                <Input placeholder="Search"/>
             </WrapperTextInput>
             <WrapperButtonSearch>
                 <ButtonSearch>

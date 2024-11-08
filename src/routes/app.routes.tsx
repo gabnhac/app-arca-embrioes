@@ -5,13 +5,17 @@ import Home from "@screens/Home";
 import Profile from "@screens/Profile";
 import Report from "@screens/Report";
 import AnimalDetails from "@screens/AnimalDetails";
+import MaterialAnimal from "@screens/MaterialAnimal";
 
 
-type AppRoutes = {
+export type AppRoutes = {
     animal_details: undefined;
     profile: undefined;
     home: undefined;
     report: undefined;
+    material_animal: {
+        materialName: string
+    }
 }
 
 export type AppNavigatorRouteProps = NativeStackNavigationProp<AppRoutes>;
@@ -41,6 +45,10 @@ export default function AppRoutes() {
             <Screen
                 name="animal_details"
                 component={AnimalDetails}
+            />
+            <Screen
+                name="material_animal"
+                component={MaterialAnimal}
             />
 
 

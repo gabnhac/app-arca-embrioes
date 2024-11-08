@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { FlatList, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { FlatList, StatusBar, View } from "react-native";
 
 import { Container, Categories, WrapperTitle, Animals, WrapperTouchable, Header } from "./styles";
 import Title from "@components/Title/Title";
@@ -107,6 +107,8 @@ export default function Home() {
             setIsSelectedDoadoras(false);
         }
     }
+
+
 
     return (
         <Container>

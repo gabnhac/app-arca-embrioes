@@ -71,8 +71,9 @@ export default function SignUp() {
                 <ContainerContent>
                     <Title
                         title="Crie sua conta"
-                        typeFontSize={30}
+                        typeFontSize={25}
                         typeFontWeight="BOLD"
+                        typeColor="VIOLET"
                     />
                     <WrapperForm>
                         <Controller

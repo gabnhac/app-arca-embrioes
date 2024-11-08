@@ -7,6 +7,7 @@ export default {
         INDIGO_DYE: "#11496E",
         ROYAL_BLUE_TRADITIONAL: "#22276E",
         RED_500: "#F75A68",
+        GREEN_500: "#00B37E",
     },
     FONT_FAMILY: {
         BODY: "Montserrat_400Regular",

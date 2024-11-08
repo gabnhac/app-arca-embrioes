@@ -1,4 +1,5 @@
-export type UserType = {
+export type UserDTO = {
+    id: number,
     razao_social: string;
     CNPJ: number;
     email: string;

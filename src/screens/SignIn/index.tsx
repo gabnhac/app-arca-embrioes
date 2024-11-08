@@ -13,6 +13,7 @@ import { AuthNavigatorRoutesProps } from "@routes/auth.routes";
 import { Controller, useForm } from "react-hook-form";
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useAuth } from "../../hooks/useAuth";
 
 type FormDataprops = {
     email: string;
@@ -24,10 +25,14 @@ const signInSchema = yup.object({
     password: yup.string().required('Informe a senha')
 })
 
+
+
 export default function SignIn() {
     const { height, width } = Dimensions.get('screen');
 
     const navigation = useNavigation<AuthNavigatorRoutesProps>()
+
+    const {signIn} = useAuth();
 
     const { control, handleSubmit, formState: { errors } } = useForm<FormDataprops>({
         defaultValues: {
@@ -42,7 +47,7 @@ export default function SignIn() {
     }
 
     function handleSingIn({ email, password }: FormDataprops) {
-        console.log({ email, password });
+        signIn(email, password); 
     }
     return (
         <Container>
@@ -86,7 +91,7 @@ export default function SignIn() {
                             control={control}
                             render={({ field: { onChange, value } }) => (
                                 <Input
-                                    label="password"
+                                    label="Senha"
                                     secureTextEntry
                                     autoCapitalize="none"
                                     onChangeText={onChange}

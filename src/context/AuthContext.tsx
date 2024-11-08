@@ -1,10 +1,10 @@
 import { createContext, ReactNode, useState } from "react";
 
-import { UserType } from "@dtos/UserDTO";
+import { UserDTO } from "@dtos/UserDTO";
 
 export type AuthContextDataProps = {
-  user: UserType;
-  setUser: (user: UserType) => void;
+  user: UserDTO;
+  signIn: (email: string, password: string) => void;
 }
 
 type AuthContextProviderProps = {
@@ -12,18 +12,32 @@ type AuthContextProviderProps = {
 }
 export const AuthContext = createContext<AuthContextDataProps>({} as AuthContextDataProps);
 
-export function AuthContextProvider({ children }: AuthContextProviderProps) {
-  const [user, setUser] = useState({
-    CNPJ: 12312312345,
-    DDD: 34,
-    email: 'gluceploiu@gmail.com',
-    razao_social: 'Gabriel',
-    telefone: 123456789
+const dummyDataLogin = {
+  emailCheck: 'user@gmail.com',
+  passwordCheck: 'user1234'
+}
 
-  });
+export function AuthContextProvider({ children }: AuthContextProviderProps) {
+  const [user, setUser] = useState({} as UserDTO);
+
+  function signIn(email: string, password: string){
+    const {emailCheck, passwordCheck} = dummyDataLogin;
+    if(email === emailCheck && password === passwordCheck){
+      setUser({
+        id: 1,
+        CNPJ: 12345678910123,
+        DDD: 34,
+        email: 'user@gmail.com',
+        razao_social: 'User Farm',
+        telefone: 912345678
+      })
+    }else{
+      console.log('Erro ao efetuar login.')
+    }
+  }
 
   return (
-    <AuthContext.Provider value={{ user, setUser }}>
+    <AuthContext.Provider value={{ user, signIn }}>
       {children}
     </AuthContext.Provider>
   )

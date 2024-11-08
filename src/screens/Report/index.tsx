@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Container, WrapperBody, WrapperStockCards, WrapperTitle } from "./styles";
 import Title from "@components/Title/Title";
 import CardStock from "@components/CardStock";
 import BackOption from "@components/BackOption";
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRouteProps } from "@routes/app.routes";
+import CardMaterialAnimal from "@components/CardMaterialAnimal";
 
 
 export default function Report() {
@@ -13,9 +14,10 @@ export default function Report() {
     const [countEmbrioes, setCountEmbrioes] = useState(0);
     const [countOocitos, setCountOocitos] = useState(0);
     const [countSemen, setCountSemen] = useState(0);
+
     return (
         <Container>
-            <BackOption 
+            <BackOption
                 onPress={() => navigation.goBack()}
             />
             <WrapperTitle>
@@ -33,7 +35,10 @@ export default function Report() {
                     count={10}
                     description="Total Embriões"
                     size="LARGE"
+                    onPress={() => navigation.navigate('material_animal', { materialName: 'Embriões' })}
                 />
+
+
                 <WrapperStockCards>
                     <CardStock
                         color="ROYAL_BLUE"
@@ -41,6 +46,8 @@ export default function Report() {
                         count={10}
                         description="Total Semen"
                         size="MEDIUM"
+                        onPress={() => navigation.navigate('material_animal', { materialName: 'Semens' })}
+
                     />
                     <CardStock
                         color="DARK_BLUE"
@@ -48,6 +55,7 @@ export default function Report() {
                         count={10}
                         description="Total Oócitos"
                         size="MEDIUM"
+                        onPress={() => navigation.navigate('material_animal', { materialName: 'Oócitos' })}
                     />
                 </WrapperStockCards>
             </WrapperBody>

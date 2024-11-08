@@ -2,7 +2,7 @@ import { TextInput } from "react-native";
 import styled from "styled-components/native";
 
 export const Container = styled.View`
-    width: 280px;
+    width: 100%;
     height: 40px;
 
     background-color: #FFFFFF;
@@ -26,11 +26,12 @@ export const Input = styled(TextInput)`
 `; 
 
 export const WrapperTextInput = styled.View`
-    width: 85%;
+    width: 87%;
 `;
 
 export const WrapperButtonSearch = styled.View`
-    width: 15%;
+    width: 13%;
+    align-items: center;
     align-items: flex-end;
 
     border-left-width: 2px;

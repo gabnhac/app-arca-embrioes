@@ -1,7 +1,8 @@
 import { TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-export const Container = styled.View`
+export const Container = styled(SafeAreaView)`
     flex: 1;
     background-color: ${({theme}) => theme.COLORS.FRENCH_GRAY};
     align-items: center;
@@ -9,7 +10,7 @@ export const Container = styled.View`
 `;
 
 export const Header = styled.View`
-    height: 30%;
+    height: 33%;
     width: 100%;
 
     align-items: center;
