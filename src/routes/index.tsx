@@ -14,8 +14,7 @@ export default function Routes() {
     return (
         <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
             <NavigationContainer>
-               {/*user.id ? <AppRoutes /> : <AuthRoutes />*/}
-               <AppRoutes/>
+               {user.id ? <AppRoutes /> : <AuthRoutes />}
             </NavigationContainer>
         </View>
     )
