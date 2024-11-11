@@ -37,7 +37,7 @@ const signUpSchema = yup.object({
     password_confirm: yup.string().required('Confirme a senha').oneOf([yup.ref("password"), ""], 'A confirmação da senha não confere'),
 });
 
-export default function SignUp() {
+export default function RegisterOwner() {
     const { height, width } = Dimensions.get('screen');
     const { control, handleSubmit, formState: { errors } } = useForm<FormDataProps>({
         resolver: yupResolver(signUpSchema),

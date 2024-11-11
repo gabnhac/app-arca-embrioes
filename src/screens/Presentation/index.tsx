@@ -13,7 +13,7 @@ export default function Presentation() {
     const { height, width } = Dimensions.get('screen');
 
     function handleNavigateSignIn() {
-        navigation.navigate("signin")
+        navigation.navigate("select_user")
     }
     return (
         <Container>

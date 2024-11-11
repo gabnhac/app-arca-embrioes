@@ -1,12 +1,14 @@
 import {createNativeStackNavigator, NativeStackNavigationProp} from '@react-navigation/native-stack';
 import SignIn from '@screens/SignIn';
-import SignUp from '@screens/SignUp';
 import Presentation from '@screens/Presentation';
+import SelectUser from '@screens/SelectUser';
 
 type AuthRoutes = {
-    signin: undefined;
-    signup: undefined;
+    signin: {
+        UserType: 'OWNER' | 'LAB'
+    }
     presentation: undefined,
+    select_user: undefined
 }
 
 export type AuthNavigatorRoutesProps =  NativeStackNavigationProp<AuthRoutes>;
@@ -20,6 +22,7 @@ export default function AuthRoutes(){
             screenOptions={{
                 headerShown: false,
             }}
+            initialRouteName='presentation'
         >
             <Screen
                 name="presentation"
@@ -36,8 +39,8 @@ export default function AuthRoutes(){
                 }}
             />
             <Screen
-                name="signup"
-                component={SignUp}
+                name="select_user"
+                component={SelectUser}
                 options={{
                     animation:'none'
                 }}

@@ -8,8 +8,6 @@ import Input from "@components/Input/Input";
 import Button from "@components/Button";
 import BackgroundImg from "@assets/pastoBackground.jpg";
 
-import { useNavigation } from "@react-navigation/native";
-import { AuthNavigatorRoutesProps } from "@routes/auth.routes";
 import { Controller, useForm } from "react-hook-form";
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -30,8 +28,6 @@ const signInSchema = yup.object({
 export default function SignIn() {
     const { height, width } = Dimensions.get('screen');
 
-    const navigation = useNavigation<AuthNavigatorRoutesProps>()
-
     const {signIn} = useAuth();
 
     const { control, handleSubmit, formState: { errors } } = useForm<FormDataprops>({
@@ -41,10 +37,6 @@ export default function SignIn() {
         },
         resolver: yupResolver(signInSchema)
     });
-
-    function handleNavigateSignUp() {
-        navigation.navigate("signup");
-    }
 
     function handleSingIn({ email, password }: FormDataprops) {
         signIn(email, password); 
@@ -108,12 +100,6 @@ export default function SignIn() {
                             label="Entrar"
                             shadowWhite
                             onPress={handleSubmit(handleSingIn)}
-                        />
-
-                        <Button
-                            label="Crie uma Conta"
-                            colorType="SECONDARY"
-                            onPress={handleNavigateSignUp}
                         />
                     </WrapperForm>
                 </ContainerContent>
