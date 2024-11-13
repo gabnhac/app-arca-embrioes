@@ -11,6 +11,7 @@ export const Content = styled.View`
     margin: 15px 0;
     align-items: center;
     justify-content: center;
+    gap: 20px;
 `;
 
 export const WrapperTitle = styled.View`

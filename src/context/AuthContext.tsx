@@ -1,10 +1,14 @@
 import { createContext, ReactNode, useState } from "react";
 
 import { LabDTO, UserDTO } from "@dtos/UserDTO";
+import { OwnerType } from "@services/getOwners";
 
 export type AuthContextDataProps = {
   user: UserDTO;
-  signIn: (email: string, password: string) => void;
+  userLab: LabDTO;
+  setUserOwner: (owner: OwnerType) => void;
+  signInUser: (email: string, password: string) => void;
+  signInLab: (email: string, password: string) => void;
 }
 
 type AuthContextProviderProps = {
@@ -19,29 +23,19 @@ const dummyDataLogin = {
 
 const dummyDataLoginLab = {
   emailCheckLab: 'lab@gmail.com',
-  passwordCheckLab: '1234'
+  passwordCheckLab: 'lab12345'
 }
 
 export function AuthContextProvider({ children }: AuthContextProviderProps) {
   const [user, setUser] = useState({} as UserDTO);
   const [userLab, setUserLab] = useState({} as LabDTO);
 
-  function signIn(email: string, password: string){
+  function signInUser(email: string, password: string){
     const {emailCheck, passwordCheck} = dummyDataLogin;
-    const {emailCheckLab, passwordCheckLab} = dummyDataLoginLab;
     if(email === emailCheck && password === passwordCheck){
       setUser({
         id: 1,
-        CNPJ: 12345678910123,
-        DDD: 34,
-        email: 'user@gmail.com',
-        razao_social: 'User Farm',
-        telefone: 912345678
-      })
-    }else if(email === emailCheckLab && password === passwordCheckLab){
-      setUserLab({
-        id: 1,
-        CNPJ: 12345678910123,
+        CNPJ: '12345678910123',
         DDD: 34,
         email: 'user@gmail.com',
         razao_social: 'User Farm',
@@ -52,8 +46,31 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     }
   }
 
+  function signInLab(email: string, password: string){
+    const {emailCheckLab, passwordCheckLab} = dummyDataLoginLab;
+    if(email === emailCheckLab && password === passwordCheckLab){
+      setUserLab({
+        CNPJ: 12345678910123,
+        email: 'lab@gmail.com',
+      })
+    }else{
+      console.error('erro ao logar');
+    }
+  }
+
+  function setUserOwner(owner: OwnerType){
+    setUser({
+      id: owner.id_proprietario,
+      CNPJ: owner.CNPJ,
+      DDD: owner.DDD,
+      email: owner.email,
+      razao_social: owner.razao_social,
+      telefone: owner.numero_telefone
+    })
+  }
+
   return (
-    <AuthContext.Provider value={{ user, signIn }}>
+    <AuthContext.Provider value={{ userLab, user, signInUser, signInLab, setUserOwner }}>
       {children}
     </AuthContext.Provider>
   )

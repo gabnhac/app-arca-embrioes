@@ -1,14 +1,17 @@
+import { TouchableOpacityProps } from "react-native";
 import { Container, InfoText, WrapperInfo } from "./styles";
 import AntDesign from '@expo/vector-icons/AntDesign';
 
-type Props = {
+type Props = TouchableOpacityProps & {
     name: string;
-    cnpj: number;
+    cnpj: string;
 }
 
-export default function CardOwner({cnpj, name}: Props){
+export default function CardOwner({cnpj, name, ...rest}: Props){
     return(
-        <Container>
+        <Container
+            {...rest}
+        >
             <WrapperInfo>
                 <InfoText>FAZ. {name}</InfoText>
                 <InfoText>CNPJ {cnpj.toString()}</InfoText>

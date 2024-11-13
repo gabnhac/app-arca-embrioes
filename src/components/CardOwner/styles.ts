@@ -3,7 +3,7 @@ import styled from "styled-components/native";
 
 export const Container = styled(TouchableOpacity)`
     width: 250px;
-    height: 60px;
+
 
     flex-direction: row;
 
@@ -13,6 +13,7 @@ export const Container = styled(TouchableOpacity)`
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 
     align-items: center;
+
 
     gap: 15px;
 `;

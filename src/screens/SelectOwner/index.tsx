@@ -3,56 +3,32 @@ import { Container, Content, WrapperTitle } from "./styles";
 import { Dimensions, FlatList, Image } from "react-native";
 import BackgroundImg from "@assets/pastoBackground.jpg";
 import Title from "@components/Title/Title";
+import getOwners, { OwnerType } from "@services/getOwners";
+import { useEffect, useState } from "react";
+import { useAuth } from "../../hooks/useAuth";
+import { useNavigation } from "@react-navigation/native";
+import { AppNavigatorRouteProps } from "@routes/app.routes";
 
 export default function SelectOwner() {
     const { height, width } = Dimensions.get('screen');
+    const [owners, setOwners] = useState<OwnerType[]>([]);
+    const navigation = useNavigation<AppNavigatorRouteProps>();
 
-    const dummyData = [
-        {
-            name: 'São Jozino',
-            cnpj: 12334567895431
-        },
-        {
-            name: 'Baburu',
-            cnpj: 12334567895076
-        },
-        {
-            name: 'Baburu',
-            cnpj: 12334567895076
-        },
-        {
-            name: 'Baburu',
-            cnpj: 12334567895076
-        },
-        {
-            name: 'Baburu',
-            cnpj: 12334567895076
-        },
-        {
-            name: 'Baburu',
-            cnpj: 12334567895076
-        },
-        {
-            name: 'Baburu',
-            cnpj: 12334567895076
-        },
-        {
-            name: 'Baburu',
-            cnpj: 12334567895076
-        },
-        {
-            name: 'Baburu',
-            cnpj: 12334567895076
-        },
-        {
-            name: 'Baburu',
-            cnpj: 12334567895076
-        },
-        {
-            name: 'Baburu',
-            cnpj: 12334567895076
-        },
-    ]
+    const {setUserOwner} = useAuth()
+
+    async function getAllOwners() {
+        const ownersArr = await getOwners();
+        setOwners([...ownersArr])
+    }
+
+    function navigateToHome(owner: OwnerType) {
+        navigation.navigate('home')
+        setUserOwner(owner);
+    }
+
+    useEffect(() => {
+        getAllOwners();
+    }, [])
 
     return (
         <Container>
@@ -70,29 +46,33 @@ export default function SelectOwner() {
             />
 
 
-            <WrapperTitle>
-                <Title
-                    title="Escolha o proprietário"
-                    typeFontSize={25}
-                    typeColor="VIOLET"
-                    typeFontWeight="BOLD"
-                />
-            </WrapperTitle>
             <Content>
+                <WrapperTitle>
+
+                    <Title
+                        title="Escolha o proprietário"
+                        typeFontSize={25}
+                        typeFontWeight="BOLD"
+                    />
+                </WrapperTitle>
                 <FlatList
-                    data={dummyData}
-                    showsVerticalScrollIndicator={false}
+                    data={owners}
                     contentContainerStyle={{
-                        gap: 15
+                        gap: 10
                     }}
+                    showsVerticalScrollIndicator={false}
                     renderItem={({ item, index }) => (
                         <CardOwner
+                            onPress={() => navigateToHome(item)}
+                            cnpj={item.CNPJ}
+                            name={item.razao_social}
                             key={index}
-                            name={item.name}
-                            cnpj={item.cnpj}
                         />
                     )}
                 />
+
+
+
             </Content>
 
         </Container>

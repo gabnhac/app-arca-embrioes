@@ -1,10 +1,11 @@
-import api from "../axios/axios";
+import {api} from "./api";
 
 export default async function getAnimalsByOwner(id: string){
     try {
-        const response = await api.post(`/animal/proprietario/${id}`);
+        const response = await api.get(`/animal/proprietario/${id}`);
         
         console.log('Reposta post animals: ', response);
+        return response;
     } catch (error) {
         console.error('Erro na requisição:', error);
     }

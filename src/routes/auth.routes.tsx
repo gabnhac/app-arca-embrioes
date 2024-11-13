@@ -3,7 +3,7 @@ import SignIn from '@screens/SignIn';
 import Presentation from '@screens/Presentation';
 import SelectUser from '@screens/SelectUser';
 
-type AuthRoutes = {
+export type AuthRoutes = {
     signin: {
         UserType: 'OWNER' | 'LAB'
     }
@@ -14,6 +14,7 @@ type AuthRoutes = {
 export type AuthNavigatorRoutesProps =  NativeStackNavigationProp<AuthRoutes>;
 
 const {Navigator, Screen} = createNativeStackNavigator<AuthRoutes>();
+
 
 
 export default function AuthRoutes(){

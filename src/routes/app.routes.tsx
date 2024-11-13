@@ -9,6 +9,7 @@ import MaterialAnimal from "@screens/MaterialAnimal";
 import SelectOwner from "@screens/SelectOwner";
 import RegisterOwner from "@screens/RegisterOwner";
 import MaterialDetails from "@screens/MaterialDetails";
+import { useAuth } from "../hooks/useAuth";
 
 
 export type AppRoutes = {
@@ -26,16 +27,16 @@ export type AppRoutes = {
 
 export type AppNavigatorRouteProps = NativeStackNavigationProp<AppRoutes>;
 
-const { Screen, Navigator } = createNativeStackNavigator<AppRoutes>();
-
 export default function AppRoutes() {
+    const { Screen, Navigator } = createNativeStackNavigator<AppRoutes>();
+    const { userLab } = useAuth();
     return (
         <Navigator
             screenOptions={{
                 headerShown: false,
                 animationTypeForReplace: "pop"
             }}
-            initialRouteName="material_details"
+            initialRouteName={userLab.CNPJ ? 'select_owner' : 'home'}
         >
             <Screen
                 name="select_owner"
