@@ -12,6 +12,8 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { cnpjMask } from "@utils/cnpjMask";
 import { telMask } from "@utils/telMask";
+import BackOption from "@components/BackOption";
+import { AppNavigatorRouteProps } from "@routes/app.routes";
 
 type FormDataProps = {
     name: string;
@@ -29,7 +31,7 @@ const signUpSchema = yup.object({
         .string()
         .min(18, 'CNPJ inválido')
         .required('Informe o CNPJ'),
-        tel: yup
+    tel: yup
         .string()
         .min(15, 'Telefone inválido')
         .required('Informe o número de telefone'),
@@ -43,14 +45,12 @@ export default function RegisterOwner() {
         resolver: yupResolver(signUpSchema),
     });
 
-    const navigation = useNavigation<AuthNavigatorRoutesProps>();
+    const navigation = useNavigation<AppNavigatorRouteProps>();
 
-    function handleGoBack() {
-        navigation.goBack();
-    }
-
-    function handleSignUp({ cnpj, email, name, password, password_confirm, tel }: FormDataProps) {
+    function handleRegister({ cnpj, email, name, password, password_confirm, tel }: FormDataProps) {
         console.log({ cnpj, email, name, password, password_confirm, tel });
+        navigation.navigate('select_owner');
+
     }
 
     return (
@@ -67,10 +67,16 @@ export default function RegisterOwner() {
                 source={BackgroundImg}
                 alt="Gado no pasto"
             />
+            <BackOption
+                onPress={() => {
+                    navigation.goBack();
+                }}
+            />
             <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 30 }}>
                 <ContainerContent>
+                    
                     <Title
-                        title="Crie sua conta"
+                        title="Cadastre um novo proprietário"
                         typeFontSize={25}
                         typeFontWeight="BOLD"
                         typeColor="VIOLET"
@@ -127,7 +133,7 @@ export default function RegisterOwner() {
                                     keyboardType="numeric"
                                     value={value}
                                     onChangeText={(text) => {
-                                        const formattedValue = telMask(text); 
+                                        const formattedValue = telMask(text);
                                         onChange(formattedValue);
                                     }}
                                     errorMessage={errors.tel?.message}
@@ -157,7 +163,7 @@ export default function RegisterOwner() {
                                     secureTextEntry
                                     value={value}
                                     errorMessage={errors.password_confirm?.message}
-                                    onSubmitEditing={handleSubmit(handleSignUp)}
+                                    onSubmitEditing={handleSubmit(handleRegister)}
                                 />
                             )}
                         />
@@ -165,13 +171,7 @@ export default function RegisterOwner() {
                         <Button
                             label="Criar"
                             shadowWhite
-                            onPress={handleSubmit(handleSignUp)}
-                        />
-
-                        <Button
-                            label="Voltar para login"
-                            colorType="SECONDARY"
-                            onPress={handleGoBack}
+                            onPress={handleSubmit(handleRegister)}
                         />
 
                     </WrapperForm>

@@ -20,11 +20,11 @@ export default async function getOwners(): Promise<OwnerType[] | []> {
             const jsonData: OwnerType[] = JSON.parse(dataString.slice(jsonStartIndex));
             return jsonData;
         } else {
-            console.error("Dados JSON não encontrados na resposta.");
+            console.error("Dados JSON de proprietários não encontrados na resposta.");
             return [];
         }
     } catch (error) {
-        console.error('Erro na requisição:', error);
+        console.error('Erro na requisição de proprietários: ', error);
         return [];
     }
 }

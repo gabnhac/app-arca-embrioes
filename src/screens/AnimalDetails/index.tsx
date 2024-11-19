@@ -15,7 +15,7 @@ export default function AnimalDetails(){
     const navigation = useNavigation<AppNavigatorRouteProps>();
     const style = theme;
 
-    const {brinco, idade, material, nome, peso, raca, sexo} = useSelector(selectAnimal);
+    const {brinco, material, nome, peso, raca, sexo} = useSelector(selectAnimal);
 
 
     return(
@@ -58,12 +58,6 @@ export default function AnimalDetails(){
                             <Input
                                 label="Peso (KG)"
                                 value={peso.toString()}
-                            />
-                        </ShortInfo>
-                        <ShortInfo style={{width: '45%', alignSelf: 'center'}}>
-                            <Input
-                                label="Idade (ANOS)"
-                                value={idade.toString()}
                             />
                         </ShortInfo>
                         <ShortInfo style={{width: '45%', alignSelf: 'center'}}>

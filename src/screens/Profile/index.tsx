@@ -10,8 +10,21 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import BackOption from "@components/BackOption";
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRouteProps } from "@routes/app.routes";
+import { useAuth } from "../../hooks/useAuth";
 
 export default function Profile() {
+
+    const {user} = useAuth();
+
+    function formatTel(tel: string){
+        const newTel = tel.replace(/(\d{2})(\d{5})(\d{4})/, "($1) $2-$3");
+        return newTel;
+    }
+
+    function formatCnpj(cnpj: string){
+        const newCnpj = cnpj.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, "$1.$2.$3/$4-$5");
+        return newCnpj
+    }
 
     const navigation = useNavigation<AppNavigatorRouteProps>();
     return (
@@ -32,15 +45,19 @@ export default function Profile() {
                     <WrapperDate>
                         <Input
                             label="Nome"
+                            value={user.razao_social}
                         />
                         <Input
                             label="E-mail"
+                            value={user.email}
                         />
                         <Input
                             label="Celular"
+                            value={formatTel(`${user.DDD}${user.telefone}`)}
                         />
                         <Input
                             label="CPNJ"
+                            value={formatCnpj(user.CNPJ)}
                         />
                     </WrapperDate>
                     <WrapperButton>

@@ -1,5 +1,5 @@
 import CardOwner from "@components/CardOwner";
-import { Container, Content, WrapperTitle } from "./styles";
+import { Container, Content, EmptyList, TextEmptyList, WrapperAddOwner, WrapperTitle } from "./styles";
 import { Dimensions, FlatList, Image } from "react-native";
 import BackgroundImg from "@assets/pastoBackground.jpg";
 import Title from "@components/Title/Title";
@@ -8,6 +8,9 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRouteProps } from "@routes/app.routes";
+import Loading from "@components/Loading";
+import Button from "@components/Button";
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 export default function SelectOwner() {
     const { height, width } = Dimensions.get('screen');
@@ -18,11 +21,11 @@ export default function SelectOwner() {
 
     async function getAllOwners() {
         const ownersArr = await getOwners();
-        setOwners([...ownersArr])
+        setOwners([...ownersArr]);
     }
 
     function navigateToHome(owner: OwnerType) {
-        navigation.navigate('home')
+        navigation.navigate('home');
         setUserOwner(owner);
     }
 
@@ -45,7 +48,6 @@ export default function SelectOwner() {
                 alt="Gado no pasto"
             />
 
-
             <Content>
                 <WrapperTitle>
 
@@ -55,11 +57,18 @@ export default function SelectOwner() {
                         typeFontWeight="BOLD"
                     />
                 </WrapperTitle>
+                {owners ? 
                 <FlatList
                     data={owners}
                     contentContainerStyle={{
                         gap: 10
                     }}
+                    ListEmptyComponent={() => (
+                        <EmptyList>
+                            <Ionicons name="alert-circle-outline" size={24} color="#FFFFFF" />
+                            <TextEmptyList>Não há proprietários cadastrados</TextEmptyList>
+                        </EmptyList>
+                    )}
                     showsVerticalScrollIndicator={false}
                     renderItem={({ item, index }) => (
                         <CardOwner
@@ -69,11 +78,17 @@ export default function SelectOwner() {
                             key={index}
                         />
                     )}
-                />
-
-
-
+                /> : <Loading/> }
             </Content>
+            <WrapperAddOwner>
+                <Button
+                    onPress={() => {
+                        navigation.navigate('register_owner');
+                    }}
+                    label="Cadastrar"
+                    colorType="SECONDARY"
+                />
+            </WrapperAddOwner>
 
         </Container>
     )

@@ -1,7 +1,8 @@
 import React from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
 import styled from "styled-components/native";
 
-export const Container = styled.View`
+export const Container = styled(SafeAreaView)`
     flex: 1;
 
 `;
@@ -10,8 +11,6 @@ export const ContainerContent = styled.View`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
-    margin-top: 20%;
 
     gap: 15px;
 `;

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FlatList, StatusBar, View } from "react-native";
 
-import { Container, Categories, WrapperTitle, Animals, WrapperTouchable, Header } from "./styles";
+import { Container, Categories, WrapperTitle, Animals, WrapperTouchable, Header, EmptyList, TextEmptyList, AnimalList } from "./styles";
 import Title from "@components/Title/Title";
 import CardAnimal from "@components/CardAnimal";
 
@@ -13,81 +13,46 @@ import { useDispatch } from "react-redux";
 import { setAnimal } from "@store/animal/animalSlice"
 import PopUpMenu from "@components/PopUpMenu";
 import ArcaLogoFundo from "@assets/svgs/ArcaLogoFundo";
+import { useAuth } from "../../hooks/useAuth";
+import getAnimalsByOwner, { AnimalType } from "@services/getAnimalsByOwner";
+import Ionicons from '@expo/vector-icons/Ionicons';
+
+import theme from "@theme/index";
+import Loading from "@components/Loading";
 
 
 export default function Home() {
 
-    const dataDoadoras = [
-        {
-            raca: 'MALHADA',
-            idade: 5,
-            peso: 450,
-            brinco: "1E05",
-            sexo: 'F',
-            nome: 'Mimosa 1',
-            material: 30,
-        },
-        {
-            raca: 'BRANGUS',
-            idade: 3,
-            peso: 500,
-            brinco: "1E06",
-            sexo: 'F',
-            nome: 'Mimosa 2',
-            material: 20,
-        },
-        {
-            raca: 'HEREFORD',
-            idade: 7,
-            peso: 530,
-            brinco: "1W05",
-            sexo: 'F',
-            nome: 'Mimosa 3',
-            material: 15,
-        },
-    ]
+    const { user } = useAuth();
 
-    const dataDoadores = [
-        {
-            raca: 'BEEFALO',
-            idade: 5,
-            peso: 450,
-            brinco: "1E05",
-            sexo: 'M',
-            nome: 'Bufante 1',
-            material: 6,
-        },
-        {
-            raca: 'AZUL BELGA',
-            idade: 3,
-            peso: 500,
-            brinco: "1E06",
-            sexo: 'M',
-            nome: 'Bufante 2',
-            material: 8,
-        },
-        {
-            raca: 'HEREFORD',
-            idade: 7,
-            peso: 530,
-            brinco: "1W05",
-            sexo: 'M',
-            nome: 'Bufante 3',
-            material: 10,
-        },
-    ]
-
-    const [animais, setAnimais] = useState(dataDoadoras);
+    const [doadoras, setDoadoras] = useState<AnimalType[]>([]);
+    const [doadores, setDoadores] = useState<AnimalType[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
     const [isSelectedDoadoras, setIsSelectedDoadoras] = useState(true);
 
     const navigation = useNavigation<AppNavigatorRouteProps>();
 
     const dispatch = useDispatch();
 
-    function handleSelectAnimal({ brinco, idade, material, nome, peso, raca, sexo }: animalState) {
+    async function loadAnimals(id: number){
+        const response = await getAnimalsByOwner(id);
+        let doadoresArr = [];
+        let doadorasArr = [];
+        for (const animal of response) {
+            if(animal.sexo === 'm'){
+                doadoresArr.push(animal);
+            }else{
+                doadorasArr.push(animal);
+            }
+        }
+        setDoadoras(doadorasArr);
+        setDoadores(doadoresArr);
+        setIsLoading(false);
+    }
+
+    function handleSelectAnimal({ brinco, material, nome, peso, raca, sexo }: animalState) {
         const animalObj = {
             brinco: brinco,
-            idade: idade,
             material: material,
             nome: nome,
             peso: peso,
@@ -100,15 +65,17 @@ export default function Home() {
 
     function handleChangeAnimalCategories(categoria: 'DOADORAS' | 'DOADORES') {
         if (categoria === 'DOADORAS') {
-            setAnimais(dataDoadoras)
+  
             setIsSelectedDoadoras(true);
         } else {
-            setAnimais(dataDoadores);
+
             setIsSelectedDoadoras(false);
         }
     }
 
-
+    useEffect(() => {
+        loadAnimals(user.id);
+    }, [])
 
     return (
         <Container>
@@ -122,7 +89,10 @@ export default function Home() {
             <Animals>
                 <Categories>
                     <WrapperTouchable
-                        onPress={() => handleChangeAnimalCategories('DOADORAS')}
+                        onPress={() =>{
+                            handleChangeAnimalCategories('DOADORAS')
+                    
+                        }}
                     >
                         <Title
                             title="DOADORAS"
@@ -142,44 +112,48 @@ export default function Home() {
                         />
                     </WrapperTouchable>
                 </Categories>
-                <WrapperTitle>
-                    <Title
-                        title="ANIMAIS"
-                        typeFontSize={15}
-                        typeFontWeight="BOLD"
-                        typeColor="WHITE"
-                    />
-                </WrapperTitle>
-
-                <FlatList
-                    showsVerticalScrollIndicator={false}
-                    data={animais}
-                    renderItem={({ item, index }) => (
-                        <View style={{ marginBottom: 10 }} >
-                            <CardAnimal
-                                key={index}
-                                raca={item.raca}
-                                idade={item.idade}
-                                peso={item.peso}
-                                brinco={item.brinco}
-                                onPress={() =>
-                                    handleSelectAnimal(
-                                        {
-                                            raca: item.raca,
-                                            brinco: item.brinco,
-                                            idade: item.idade,
-                                            material: item.material,
-                                            nome: item.nome,
-                                            peso: item.peso,
-                                            sexo: item.sexo,
-                                        }
-                                    )
-                                }
-                            />
-                        </View>
-
-                    )}
-                />
+                <AnimalList>
+                    <WrapperTitle>
+                        <Title
+                            title="ANIMAIS"
+                            typeFontSize={15}
+                            typeFontWeight="BOLD"
+                            typeColor="WHITE"
+                        />
+                    </WrapperTitle>
+                    {isLoading ? <Loading/> : <FlatList
+                        showsVerticalScrollIndicator={false}
+                        data={isSelectedDoadoras ? doadoras : doadores}
+                        ListEmptyComponent={() => (
+                            <EmptyList>
+                                <Ionicons name="alert-circle-outline" size={30} color={theme.COLORS.YELLOW_ALERT} />
+                                <TextEmptyList style={{color: '#000000'}}>Não há animais cadastrados</TextEmptyList>
+                            </EmptyList>
+                        )}
+                        renderItem={({ item, index }) => (
+                            <View style={{ marginBottom: 10 }} >
+                                <CardAnimal
+                                    key={index}
+                                    raca={'modegus'}
+                                    peso={item.peso}
+                                    brinco={item.brinco}
+                                    onPress={() =>
+                                        handleSelectAnimal(
+                                            {
+                                                raca: 'modegus',
+                                                brinco: item.brinco,
+                                                material: 10,
+                                                nome: item.nome,
+                                                peso: item.peso,
+                                                sexo: item.sexo,
+                                            }
+                                        )
+                                    }
+                                />
+                            </View>
+                        )}
+                    />}
+                </AnimalList>
 
             </Animals>
 
