@@ -5,7 +5,7 @@ import { type animalState } from "./types";
 const initialState = {
     raca: '',
     peso: 0,
-    brinco: "",
+    brinco: '',
     sexo: '',
     nome: '',
     material: 0,

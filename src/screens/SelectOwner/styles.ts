@@ -36,3 +36,9 @@ export const TextEmptyList = styled.Text`
     font-size: 15px;
     color: #FFFFFF;
 `;
+
+export const WrapperTouchableReload = styled.TouchableOpacity`
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+`;

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FlatList, StatusBar, View } from "react-native";
 
-import { Container, Categories, WrapperTitle, Animals, WrapperTouchable, Header, EmptyList, TextEmptyList, AnimalList } from "./styles";
+import { Container, Categories, WrapperTitle, Animals, WrapperTouchable, Header, EmptyList, TextEmptyList, AnimalList, AddButton } from "./styles";
 import Title from "@components/Title/Title";
 import CardAnimal from "@components/CardAnimal";
 
@@ -16,6 +16,7 @@ import ArcaLogoFundo from "@assets/svgs/ArcaLogoFundo";
 import { useAuth } from "../../hooks/useAuth";
 import getAnimalsByOwner, { AnimalType } from "@services/getAnimalsByOwner";
 import Ionicons from '@expo/vector-icons/Ionicons';
+import Feather from '@expo/vector-icons/Feather';
 
 import theme from "@theme/index";
 import Loading from "@components/Loading";
@@ -23,7 +24,7 @@ import Loading from "@components/Loading";
 
 export default function Home() {
 
-    const { user } = useAuth();
+    const { user, userLab } = useAuth();
 
     const [doadoras, setDoadoras] = useState<AnimalType[]>([]);
     const [doadores, setDoadores] = useState<AnimalType[]>([]);
@@ -36,6 +37,9 @@ export default function Home() {
 
     async function loadAnimals(id: number){
         const response = await getAnimalsByOwner(id);
+
+        if(!response)
+            return 
         let doadoresArr = [];
         let doadorasArr = [];
         for (const animal of response) {
@@ -58,9 +62,9 @@ export default function Home() {
             peso: peso,
             raca: raca,
             sexo: sexo,
-        }
-        dispatch(setAnimal(animalObj))
-        navigation.navigate('animal_details')
+        };
+        dispatch(setAnimal(animalObj));
+        navigation.navigate('animal_details');
     }
 
     function handleChangeAnimalCategories(categoria: 'DOADORAS' | 'DOADORES') {
@@ -85,10 +89,12 @@ export default function Home() {
                 />
                 <PopUpMenu />
             </Header>
+            
 
             <Animals>
                 <Categories>
                     <WrapperTouchable
+                        disabled={isSelectedDoadoras}
                         onPress={() =>{
                             handleChangeAnimalCategories('DOADORAS')
                     
@@ -101,7 +107,9 @@ export default function Home() {
                             typeColor={isSelectedDoadoras ? 'VIOLET' : 'WHITE'}
                         />
                     </WrapperTouchable>
+                    
                     <WrapperTouchable
+                        disabled={!isSelectedDoadoras}
                         onPress={() => handleChangeAnimalCategories('DOADORES')}
                     >
                         <Title
@@ -112,6 +120,14 @@ export default function Home() {
                         />
                     </WrapperTouchable>
                 </Categories>
+
+                {userLab.CNPJ &&
+                    <AddButton
+                        onPress={() => navigation.navigate('animal_details')}
+                    >
+                        <Feather name="plus-circle" size={45} color={theme.COLORS.RUSSIAN_VIOLET} />
+                    </AddButton>
+                }
                 <AnimalList>
                     <WrapperTitle>
                         <Title
@@ -154,9 +170,9 @@ export default function Home() {
                         )}
                     />}
                 </AnimalList>
+                
 
             </Animals>
-
         </Container>
     )
 }

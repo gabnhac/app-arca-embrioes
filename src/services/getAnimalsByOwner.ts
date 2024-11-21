@@ -9,7 +9,7 @@ export interface AnimalType {
     cod_raca: number;
 }
 
-export default async function getAnimalsByOwner(id: number): Promise<AnimalType[] | []> {
+export default async function getAnimalsByOwner(id: number): Promise<AnimalType[] | undefined> {
     try {
         const response = await api.get(`/animal/proprietario/${id}`);
         
@@ -25,7 +25,6 @@ export default async function getAnimalsByOwner(id: number): Promise<AnimalType[
         }
     
     } catch (error) {
-        console.error('Erro na requisição de animais:', error);
-        return [];
+        return undefined;
     }
 }

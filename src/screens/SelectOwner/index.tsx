@@ -1,5 +1,5 @@
 import CardOwner from "@components/CardOwner";
-import { Container, Content, EmptyList, TextEmptyList, WrapperAddOwner, WrapperTitle } from "./styles";
+import { Container, Content, EmptyList, TextEmptyList, WrapperAddOwner, WrapperTitle, WrapperTouchableReload } from "./styles";
 import { Dimensions, FlatList, Image } from "react-native";
 import BackgroundImg from "@assets/pastoBackground.jpg";
 import Title from "@components/Title/Title";
@@ -11,16 +11,32 @@ import { AppNavigatorRouteProps } from "@routes/app.routes";
 import Loading from "@components/Loading";
 import Button from "@components/Button";
 import Ionicons from '@expo/vector-icons/Ionicons';
+import Toast from "react-native-toast-message";     
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+
 
 export default function SelectOwner() {
     const { height, width } = Dimensions.get('screen');
-    const [owners, setOwners] = useState<OwnerType[]>([]);
+    const [owners, setOwners] = useState<OwnerType[] | null | undefined>();
     const navigation = useNavigation<AppNavigatorRouteProps>();
 
-    const {setUserOwner} = useAuth()
+    const { setUserOwner } = useAuth();
 
     async function getAllOwners() {
         const ownersArr = await getOwners();
+
+        if (!ownersArr) {
+            Toast.show({
+                type: 'error',
+                position: 'bottom',
+                text1: 'Erro de conexão',
+                text2: 'Não foi possível buscar proprietários'
+
+            })
+            setOwners(null);
+            return
+        }
+
         setOwners([...ownersArr]);
     }
 
@@ -57,28 +73,38 @@ export default function SelectOwner() {
                         typeFontWeight="BOLD"
                     />
                 </WrapperTitle>
-                {owners ? 
-                <FlatList
-                    data={owners}
-                    contentContainerStyle={{
-                        gap: 10
-                    }}
-                    ListEmptyComponent={() => (
-                        <EmptyList>
-                            <Ionicons name="alert-circle-outline" size={24} color="#FFFFFF" />
-                            <TextEmptyList>Não há proprietários cadastrados</TextEmptyList>
-                        </EmptyList>
+                {owners ?
+                    <FlatList
+                        data={owners}
+                        contentContainerStyle={{
+                            gap: 10
+                        }}
+                        ListEmptyComponent={() => (
+                            <EmptyList>
+                                <Ionicons name="alert-circle-outline" size={24} color="#FFFFFF" />
+                                <TextEmptyList>Não há proprietários cadastrados</TextEmptyList>
+                            </EmptyList>
+                        )}
+                        showsVerticalScrollIndicator={false}
+                        renderItem={({ item, index }) => (
+                            <CardOwner
+                                onPress={() => navigateToHome(item)}
+                                cnpj={item.CNPJ}
+                                name={item.razao_social}
+                                key={index}
+                            />
+                        )}
+                    /> : (
+                        owners === undefined ? <Loading /> : 
+                        <WrapperTouchableReload
+                            onPress={() => {
+                                setOwners(undefined);
+                                getAllOwners();
+                            }}
+                        >
+                            <MaterialCommunityIcons name="reload" size={45} color="#FFFFFF" />
+                        </WrapperTouchableReload>
                     )}
-                    showsVerticalScrollIndicator={false}
-                    renderItem={({ item, index }) => (
-                        <CardOwner
-                            onPress={() => navigateToHome(item)}
-                            cnpj={item.CNPJ}
-                            name={item.razao_social}
-                            key={index}
-                        />
-                    )}
-                /> : <Loading/> }
             </Content>
             <WrapperAddOwner>
                 <Button

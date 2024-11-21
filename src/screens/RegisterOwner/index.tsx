@@ -24,7 +24,7 @@ type FormDataProps = {
     password_confirm: string;
 }
 
-const signUpSchema = yup.object({
+const registerOwnerSchema = yup.object({
     name: yup.string().required('Informe o nome'),
     email: yup.string().required('Informe o email').email('E-mail inválido'),
     cnpj: yup
@@ -42,7 +42,7 @@ const signUpSchema = yup.object({
 export default function RegisterOwner() {
     const { height, width } = Dimensions.get('screen');
     const { control, handleSubmit, formState: { errors } } = useForm<FormDataProps>({
-        resolver: yupResolver(signUpSchema),
+        resolver: yupResolver(registerOwnerSchema),
     });
 
     const navigation = useNavigation<AppNavigatorRouteProps>();

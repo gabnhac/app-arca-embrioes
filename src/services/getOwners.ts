@@ -9,7 +9,7 @@ export interface OwnerType {
     DDD: number;
 };
 
-export default async function getOwners(): Promise<OwnerType[] | []> {
+export default async function getOwners(): Promise<OwnerType[] | null> {
     try {
         const response = await api.get('/proprietario');
 
@@ -24,8 +24,7 @@ export default async function getOwners(): Promise<OwnerType[] | []> {
             return [];
         }
     } catch (error) {
-        console.error('Erro na requisição de proprietários: ', error);
-        return [];
+        return null;
     }
 }
 

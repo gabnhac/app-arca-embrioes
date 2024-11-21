@@ -29,9 +29,8 @@ export const Header = styled.View`
 
 export const BodyInfo = styled.View`
     align-items: center;
-    justify-content: center;
-
     padding: 0 15px;
+    width: 100%;
 `;
 
 export const WrapperShortInfos = styled.View`
@@ -40,10 +39,11 @@ export const WrapperShortInfos = styled.View`
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
+
 `;
 
 export const ShortInfo = styled.View`
-    width: 45%;
+     width: 48%; /* Permite espaçamento consistente entre os itens */
 `;
 
 export const TextInfo = styled.Text`

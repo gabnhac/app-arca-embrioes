@@ -6,6 +6,7 @@ import { AppNavigatorRouteProps, AppRoutes } from "@routes/app.routes";
 import BackOption from "@components/BackOption";
 import CardMaterialAnimal from "@components/CardMaterialAnimal";
 import { FlatList } from "react-native";
+import { useState } from "react";
 
 type MaterialAnimalRouteParams = RouteProp<AppRoutes, 'material_animal'>;
 
@@ -60,6 +61,19 @@ export default function MaterialAnimal({ route }: { route: MaterialAnimalRoutePa
             material: 15,
         },
     ]
+
+    const [materialAnimal, setMaterialAnimal] = useState(dummyData)
+
+    function searchByRaca(input: string){
+        let search;
+        if(input.match(/\d/g)){
+            search = dummyData.filter(element => element.brinco.toLowerCase().includes(input.toLowerCase()));
+        }else{
+            search = dummyData.filter(element => element.raca.toLowerCase().includes(input.toLowerCase()));
+        }
+        setMaterialAnimal(search)
+    }
+
     return (
         <Container>
             <BackOption
@@ -71,7 +85,10 @@ export default function MaterialAnimal({ route }: { route: MaterialAnimalRoutePa
                     typeFontSize={25}
                     typeFontWeight="BOLD"
                 />
-                <CardSearch />
+                <CardSearch 
+                    placeholder="Pesquise por raça ou brinco"
+                    onChangeText={(value) => searchByRaca(value)}
+                />
                 <Title
                     title={materialName}
                     typeFontSize={20}
@@ -81,7 +98,7 @@ export default function MaterialAnimal({ route }: { route: MaterialAnimalRoutePa
 
 
                 <FlatList
-                    data={dummyData}
+                    data={materialAnimal}
                     showsVerticalScrollIndicator={false}
                     numColumns={2}
                     columnWrapperStyle={{

@@ -9,7 +9,7 @@ export const Container = styled(SafeAreaView)`
 `;
 
 export const Header = styled.View`
-    height: 37%;
+    height: 30%;
     width: 100%;
 
     align-items: center;
@@ -30,6 +30,14 @@ export const WrapperTitle = styled.View`
     margin: 0 0 10px 30px;
 `;
 
+export const Animals = styled.View`
+    flex: 1;
+    align-items: center;
+
+
+    gap: 20px;
+`;
+
 export const AnimalList = styled.View`
     width: 100%;
 
@@ -41,13 +49,6 @@ export const WrapperTouchable = styled(TouchableOpacity)`
 
 `;
 
-export const Animals = styled.View`
-
-    align-items: center;
-    justify-content: center;
-
-    gap: 20px;
-`;
 
 export const EmptyList = styled.View`
     justify-content: center;
@@ -58,4 +59,11 @@ export const TextEmptyList = styled.Text`
     font-family: ${({theme}) => theme.FONT_FAMILY.BODY};
     font-size: 15px;
     color: #FFFFFF;
+`;
+
+export const AddButton = styled.TouchableOpacity`
+    padding-bottom: 15px;
+
+    align-items: center;
+    justify-content: center;
 `;
