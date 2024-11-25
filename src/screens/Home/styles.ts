@@ -1,10 +1,11 @@
 import { TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import theme from "@theme/index";
 
 export const Container = styled(SafeAreaView)`
     flex: 1;
-    background-color: ${({theme}) => theme.COLORS.FRENCH_GRAY};
+    background-color: ${({ theme }) => theme.COLORS.FRENCH_GRAY};
  
 `;
 
@@ -56,7 +57,7 @@ export const EmptyList = styled.View`
 `;
 
 export const TextEmptyList = styled.Text`
-    font-family: ${({theme}) => theme.FONT_FAMILY.BODY};
+    font-family: ${({ theme }) => theme.FONT_FAMILY.BODY};
     font-size: 15px;
     color: #FFFFFF;
 `;
@@ -67,3 +68,9 @@ export const AddButton = styled.TouchableOpacity`
     align-items: center;
     justify-content: center;
 `;
+
+export const ReloadText = styled.Text`
+    font-family: ${({theme}) => theme.FONT_FAMILY.BODY};
+    font-size: 16px;
+`;
+

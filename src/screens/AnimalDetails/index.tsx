@@ -199,7 +199,7 @@ export default function AnimalDetails() {
                                                 const pesoformt = pesoMask(value)
                                                 onChange(pesoformt)
                                             }}
-                                            value={value !== undefined ? value.toString() : ''}
+                                            value={value}
                                             errorMessage={errors.peso?.message}
                                         />
                                     )}

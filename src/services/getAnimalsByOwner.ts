@@ -1,4 +1,4 @@
-import {api} from "./api";
+import {api, configureApi} from "./api";
 
 export interface AnimalType {
     id_animal: number;
@@ -9,7 +9,8 @@ export interface AnimalType {
     cod_raca: number;
 }
 
-export default async function getAnimalsByOwner(id: number): Promise<AnimalType[] | undefined> {
+export default async function getAnimalsByOwner(id: number, ip: string): Promise<AnimalType[] | undefined> {
+    configureApi(ip);
     try {
         const response = await api.get(`/animal/proprietario/${id}`);
         
@@ -20,7 +21,7 @@ export default async function getAnimalsByOwner(id: number): Promise<AnimalType[
             const jsonData: AnimalType[] = JSON.parse(responseString.slice(jsonStartIndex - 1));
             return jsonData;
         }else{
-            console.error("Dados JSON de animais não encontrados na resposta.");
+            console.log("Dados JSON de animais não encontrados na resposta.");
             return [];
         }
     

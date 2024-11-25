@@ -1,7 +1,8 @@
+import theme from "@theme/index";
 import { Container, InitialText, Label, Option, OptionText, SelectContent, WrapperOptions } from "./styles";
 import Entypo from '@expo/vector-icons/Entypo';
 import { useState } from "react";
-import { TouchableOpacityProps } from "react-native";
+import { ScrollView, TouchableOpacityProps } from "react-native";
 import {
     useAnimatedStyle,
     useDerivedValue,
@@ -11,7 +12,7 @@ import {
 
 type Props = TouchableOpacityProps & {
     options: string[],
-    label: string,
+    label?: string,
     setOption: (option: any) => void,
 }
 
@@ -37,9 +38,9 @@ export default function Select({ options, label, setOption, ...rest }: Props) {
 
     return (
         <Container>
-            <Label>{label}</Label>
+            {label && <Label>{label}</Label>}
             <SelectContent
-            activeOpacity={1}
+                activeOpacity={1}
                 style={{
                     borderBottomLeftRadius: optionsVisivel ? 0 : 5,
                     borderBottomRightRadius: optionsVisivel ? 0 : 5,
@@ -55,24 +56,20 @@ export default function Select({ options, label, setOption, ...rest }: Props) {
                     <Entypo name="chevron-small-up" size={24} color="black" />}
             </SelectContent>
             <WrapperOptions style={styleOption}>
-
-                {options.map((item, index) => (
-                    <Option key={index}
-                        onPress={() => {
-                            setTextSelect(item);
-                            setOptionsVisible(false);
-                            setOption(item);
-                        }}
-                    >
-                        <OptionText>{item}</OptionText>
-                    </Option>
-                ))}
-
-
-
-
+                <ScrollView>
+                    {options.map((item, index) => (
+                        <Option key={index}
+                            onPress={() => {
+                                setTextSelect(item);
+                                setOptionsVisible(false);
+                                setOption(item);
+                            }}
+                        >
+                            <OptionText>{item}</OptionText>
+                        </Option>
+                    ))}
+                </ScrollView>
             </WrapperOptions>
-
         </Container>
     )
 }

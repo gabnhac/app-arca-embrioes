@@ -2,8 +2,10 @@ import {createNativeStackNavigator, NativeStackNavigationProp} from '@react-navi
 import SignIn from '@screens/SignIn';
 import Presentation from '@screens/Presentation';
 import SelectUser from '@screens/SelectUser';
+import RegisterIp from '@screens/RegisterIp';
 
 export type AuthRoutes = {
+    register_ip: undefined;
     signin: {
         UserType: 'OWNER' | 'LAB'
     }
@@ -15,36 +17,32 @@ export type AuthNavigatorRoutesProps =  NativeStackNavigationProp<AuthRoutes>;
 
 const {Navigator, Screen} = createNativeStackNavigator<AuthRoutes>();
 
-
-
 export default function AuthRoutes(){
     return(
         <Navigator
             screenOptions={{
                 headerShown: false,
             }}
-            initialRouteName='presentation'
+            initialRouteName='register_ip'
         >
+            <Screen
+                name='register_ip'
+                component={RegisterIp}
+            />
             <Screen
                 name="presentation"
                 component={Presentation}
-                options={{
-                    animation:'none'
-                }}
+                
             />
             <Screen
                 name="signin"
                 component={SignIn}
-                options={{
-                    animation:'none'
-                }}
+                
             />
             <Screen
                 name="select_user"
                 component={SelectUser}
-                options={{
-                    animation:'none'
-                }}
+                
             /> 
             
         </Navigator>

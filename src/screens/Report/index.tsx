@@ -6,17 +6,89 @@ import BackOption from "@components/BackOption";
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRouteProps } from "@routes/app.routes";
 import CardMaterialAnimal from "@components/CardMaterialAnimal";
+import { useAuth } from "../../hooks/useAuth";
+import getEmbrioesByOwner from "@services/getEmbrioesByOwner";
+import ModalEmbriao from "@components/ModalEmbriao";
+import ModalMateriais from "@components/ModalMateriais";
 
 
 export default function Report() {
-    const navigation = useNavigation<AppNavigatorRouteProps>()
+    const navigation = useNavigation<AppNavigatorRouteProps>();
+
+    const { user } = useAuth();
 
     const [countEmbrioes, setCountEmbrioes] = useState(0);
     const [countOocitos, setCountOocitos] = useState(0);
     const [countSemen, setCountSemen] = useState(0);
 
+    async function loadEmbrioes() {
+        const response = await getEmbrioesByOwner(user.id);
+
+        if (response && response.length > 0) {
+            setCountEmbrioes(response.length)
+        }
+    }
+
+    async function loadSemen() {
+
+    }
+
+    useEffect(() => {
+        loadEmbrioes();
+    }, []);
+
+    const [isVisibleEmbriao, setIsVisibleEmbriao] = useState(false);
+    const [isVisibleSemen, setIsVisibleSemen] = useState(false);
+    const [isVisibleOocito, setIsVisibleOocito] = useState(false);
+
+    function openModalEmbriao() {
+        setIsVisibleEmbriao(true);
+    };
+    function openModalSemen() {
+        setIsVisibleSemen(true);
+    };
+    function openModalOocito() {
+        setIsVisibleOocito(true);
+    };
+
+    function closeModalEmbriao() {
+        setIsVisibleEmbriao(false);
+    }
+    function closeModalSemen() {
+        setIsVisibleSemen(false);
+    }
+    function closeModalOocito() {
+        setIsVisibleOocito(false);
+    }
+
+
     return (
         <Container>
+            <ModalEmbriao
+                visible={isVisibleEmbriao}
+                transparent={true}
+                animationType="fade"
+                onRequestClose={closeModalEmbriao}
+                onClose={closeModalEmbriao}
+            />
+
+            <ModalMateriais
+                onClose={closeModalSemen}
+                visible={isVisibleSemen}
+                transparent={true}
+                animationType="fade"
+                onRequestClose={closeModalSemen}
+                type="SEMEN"
+            />
+
+            <ModalMateriais
+                onClose={closeModalOocito}
+                visible={isVisibleOocito}
+                transparent={true}
+                animationType="fade"
+                onRequestClose={closeModalOocito}
+                type="OOCITO"
+            />
             <BackOption
                 onPress={() => navigation.goBack()}
             />
@@ -32,10 +104,11 @@ export default function Report() {
                 <CardStock
                     color="LIGHT_BLUE"
                     borderRadius="FULL"
-                    count={10}
+                    count={countEmbrioes}
                     description="Total Embriões"
                     size="LARGE"
                     onPress={() => navigation.navigate('material_animal', { materialName: 'Embriões' })}
+                    showModalAdd={openModalEmbriao}
                 />
 
 
@@ -47,6 +120,7 @@ export default function Report() {
                         description="Total Semen"
                         size="MEDIUM"
                         onPress={() => navigation.navigate('material_animal', { materialName: 'Semens' })}
+                        showModalAdd={openModalSemen}
 
                     />
                     <CardStock
@@ -56,6 +130,7 @@ export default function Report() {
                         description="Total Oócitos"
                         size="MEDIUM"
                         onPress={() => navigation.navigate('material_animal', { materialName: 'Oócitos' })}
+                        showModalAdd={openModalOocito}
                     />
                 </WrapperStockCards>
             </WrapperBody>

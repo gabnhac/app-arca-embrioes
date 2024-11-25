@@ -1,11 +1,21 @@
-import React, { useEffect, useState } from "react";
-import { FlatList, StatusBar, View } from "react-native";
+import React, { useState } from "react";
+import { FlatList, View } from "react-native";
 
-import { Container, Categories, WrapperTitle, Animals, WrapperTouchable, Header, EmptyList, TextEmptyList, AnimalList, AddButton } from "./styles";
+import {
+    Container,
+    Categories,
+    WrapperTitle,
+    Animals,
+    WrapperTouchable,
+    Header,
+    AnimalList,
+    AddButton,
+    ReloadText,
+} from "./styles";
 import Title from "@components/Title/Title";
 import CardAnimal from "@components/CardAnimal";
 
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { AppNavigatorRouteProps } from "@routes/app.routes";
 
 import { animalState } from "@store/animal/types";
@@ -15,7 +25,6 @@ import PopUpMenu from "@components/PopUpMenu";
 import ArcaLogoFundo from "@assets/svgs/ArcaLogoFundo";
 import { useAuth } from "../../hooks/useAuth";
 import getAnimalsByOwner, { AnimalType } from "@services/getAnimalsByOwner";
-import Ionicons from '@expo/vector-icons/Ionicons';
 import Feather from '@expo/vector-icons/Feather';
 
 import theme from "@theme/index";
@@ -24,28 +33,33 @@ import Loading from "@components/Loading";
 
 export default function Home() {
 
-    const { user, userLab } = useAuth();
+    const { user, userLab, ipAPI } = useAuth();
 
-    const [doadoras, setDoadoras] = useState<AnimalType[]>([]);
-    const [doadores, setDoadores] = useState<AnimalType[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
+    const [doadoras, setDoadoras] = useState<AnimalType[]>();
+    const [doadores, setDoadores] = useState<AnimalType[]>();
+    const [isLoading, setIsLoading] = useState(false);
+    const [isResponse, setIsResponse] = useState(false);
     const [isSelectedDoadoras, setIsSelectedDoadoras] = useState(true);
 
     const navigation = useNavigation<AppNavigatorRouteProps>();
 
     const dispatch = useDispatch();
 
-    async function loadAnimals(id: number){
-        const response = await getAnimalsByOwner(id);
+    async function loadAnimals(id: number) {
+        setIsLoading(true);
+        const response = await getAnimalsByOwner(id, ipAPI);
 
-        if(!response)
-            return 
+        if (!response) {
+            return
+        }
+
+        setIsResponse(true);
         let doadoresArr = [];
         let doadorasArr = [];
         for (const animal of response) {
-            if(animal.sexo === 'm'){
+            if (animal.sexo === 'm' || animal.sexo === 'M') {
                 doadoresArr.push(animal);
-            }else{
+            } else {
                 doadorasArr.push(animal);
             }
         }
@@ -69,7 +83,7 @@ export default function Home() {
 
     function handleChangeAnimalCategories(categoria: 'DOADORAS' | 'DOADORES') {
         if (categoria === 'DOADORAS') {
-  
+
             setIsSelectedDoadoras(true);
         } else {
 
@@ -77,10 +91,17 @@ export default function Home() {
         }
     }
 
-    useEffect(() => {
-        loadAnimals(user.id);
-    }, [])
+    useFocusEffect(
+        React.useCallback(() => {
+            loadAnimals(user.id);
 
+            return () => {
+
+            }
+        }, [])
+    )
+
+    console.log(doadoras, doadores)
     return (
         <Container>
             <Header>
@@ -89,15 +110,15 @@ export default function Home() {
                 />
                 <PopUpMenu />
             </Header>
-            
+
 
             <Animals>
                 <Categories>
                     <WrapperTouchable
                         disabled={isSelectedDoadoras}
-                        onPress={() =>{
+                        onPress={() => {
                             handleChangeAnimalCategories('DOADORAS')
-                    
+
                         }}
                     >
                         <Title
@@ -107,7 +128,7 @@ export default function Home() {
                             typeColor={isSelectedDoadoras ? 'VIOLET' : 'WHITE'}
                         />
                     </WrapperTouchable>
-                    
+
                     <WrapperTouchable
                         disabled={!isSelectedDoadoras}
                         onPress={() => handleChangeAnimalCategories('DOADORES')}
@@ -137,15 +158,19 @@ export default function Home() {
                             typeColor="WHITE"
                         />
                     </WrapperTitle>
-                    {isLoading ? <Loading/> : <FlatList
+                    {isResponse && <FlatList
                         showsVerticalScrollIndicator={false}
-                        data={isSelectedDoadoras ? doadoras : doadores}
                         ListEmptyComponent={() => (
-                            <EmptyList>
-                                <Ionicons name="alert-circle-outline" size={30} color={theme.COLORS.YELLOW_ALERT} />
-                                <TextEmptyList style={{color: '#000000'}}>Não há animais cadastrados</TextEmptyList>
-                            </EmptyList>
+                            isLoading ?
+                                <Loading />
+
+                                :
+
+                                <ReloadText>Não há animais cadastrados</ReloadText>
+
+
                         )}
+                        data={isSelectedDoadoras ? doadoras : doadores}
                         renderItem={({ item, index }) => (
                             <View style={{ marginBottom: 10 }} >
                                 <CardAnimal
@@ -169,8 +194,8 @@ export default function Home() {
                             </View>
                         )}
                     />}
+
                 </AnimalList>
-                
 
             </Animals>
         </Container>

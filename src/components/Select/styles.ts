@@ -35,14 +35,11 @@ export const Label = styled.Text`
 `;
 
 export const WrapperOptions = styled(Animated.View)`
+  position: absolute;
+  z-index: 100; 
   background-color: ${({ theme }) => theme.COLORS.FRENCH_GRAY};
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
-
-  justify-content: space-between;
-
-  position: absolute;
-  z-index: 100; 
   left: 0;
   right: 0;
   bottom: 0;

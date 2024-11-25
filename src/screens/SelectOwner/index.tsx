@@ -4,9 +4,9 @@ import { Dimensions, FlatList, Image } from "react-native";
 import BackgroundImg from "@assets/pastoBackground.jpg";
 import Title from "@components/Title/Title";
 import getOwners, { OwnerType } from "@services/getOwners";
-import { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { AppNavigatorRouteProps } from "@routes/app.routes";
 import Loading from "@components/Loading";
 import Button from "@components/Button";
@@ -20,10 +20,10 @@ export default function SelectOwner() {
     const [owners, setOwners] = useState<OwnerType[] | null | undefined>();
     const navigation = useNavigation<AppNavigatorRouteProps>();
 
-    const { setUserOwner } = useAuth();
+    const { setUserOwner, ipAPI } = useAuth();
 
-    async function getAllOwners() {
-        const ownersArr = await getOwners();
+    async function loadAllOwners() {
+        const ownersArr = await getOwners(ipAPI);
 
         if (!ownersArr) {
             Toast.show({
@@ -45,9 +45,15 @@ export default function SelectOwner() {
         setUserOwner(owner);
     }
 
-    useEffect(() => {
-        getAllOwners();
-    }, [])
+    useFocusEffect(
+        React.useCallback(() => {
+            loadAllOwners();
+
+            return () => {
+
+            }
+        }, [])
+    )
 
     return (
         <Container>
@@ -99,7 +105,7 @@ export default function SelectOwner() {
                         <WrapperTouchableReload
                             onPress={() => {
                                 setOwners(undefined);
-                                getAllOwners();
+                                loadAllOwners();
                             }}
                         >
                             <MaterialCommunityIcons name="reload" size={45} color="#FFFFFF" />

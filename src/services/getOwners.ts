@@ -1,4 +1,4 @@
-import { api } from "./api";
+import { api, configureApi} from "./api";
 
 export interface OwnerType {
     id_proprietario: number;
@@ -9,7 +9,8 @@ export interface OwnerType {
     DDD: number;
 };
 
-export default async function getOwners(): Promise<OwnerType[] | null> {
+export default async function getOwners(ip: string): Promise<OwnerType[] | null> {
+    configureApi(ip)
     try {
         const response = await api.get('/proprietario');
 

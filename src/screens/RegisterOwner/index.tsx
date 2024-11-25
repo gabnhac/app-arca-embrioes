@@ -6,7 +6,6 @@ import Button from "@components/Button";
 import BackgroundImg from "@assets/pastoBackground.jpg";
 import Title from "@components/Title/Title";
 import { useNavigation } from "@react-navigation/native";
-import { AuthNavigatorRoutesProps } from "@routes/auth.routes";
 import { Controller, useForm } from "react-hook-form";
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -14,6 +13,8 @@ import { cnpjMask } from "@utils/cnpjMask";
 import { telMask } from "@utils/telMask";
 import BackOption from "@components/BackOption";
 import { AppNavigatorRouteProps } from "@routes/app.routes";
+import postOwner from "@services/postOwner";
+import Toast from "react-native-toast-message";
 
 type FormDataProps = {
     name: string;
@@ -47,9 +48,33 @@ export default function RegisterOwner() {
 
     const navigation = useNavigation<AppNavigatorRouteProps>();
 
-    function handleRegister({ cnpj, email, name, password, password_confirm, tel }: FormDataProps) {
-        console.log({ cnpj, email, name, password, password_confirm, tel });
-        navigation.navigate('select_owner');
+    async function handleRegister({ cnpj, email, name, password, tel }: FormDataProps) {
+        const cnpjFormat = cnpj.replace(/\D/g, '');
+        const telNumber = Number(tel.replace(/\D/g, ''));
+        const ddd = Number(tel[1] + tel[2]);
+        console.log('data',{ cnpjFormat, ddd, email, name, password, telNumber })
+        const response = await postOwner({ 
+            cnpj: cnpjFormat, 
+            email, 
+            razao_social: name, 
+            senha: password, 
+            telefone: telNumber,
+            ddd
+        });
+
+        if(response?.status === 200){
+            Toast.show({
+                position: 'bottom',
+                type: 'success',
+                text1: 'Proprietário cadastrado com sucesso'
+            })
+        }else{
+            Toast.show({
+                position: 'bottom',
+                type: 'error',
+                text1: 'Não foi possível cadastrar o proprietário'
+            })
+        }
 
     }
 

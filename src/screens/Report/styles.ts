@@ -9,21 +9,21 @@ export const Container = styled(SafeAreaView)`
 `;
 
 export const WrapperTitle = styled.View`
-    height: 10%;
     align-items: center;
     justify-content: flex-end;
+
+    margin: 50px 0;
 `;
 
 export const WrapperBody = styled.View`
-    flex: 1;
     align-items: center;
     justify-content: center;
 `;
 
 export const WrapperStockCards = styled.View`
-    width: 80%;
     flex-direction: row;
     align-items: center;
     justify-content: space-around;
     margin-top: 20px;
+    gap: 30px;
 `;
