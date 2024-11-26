@@ -16,7 +16,7 @@ import { AppNavigatorRouteProps } from "@routes/app.routes";
 import postOwner from "@services/postOwner";
 import Toast from "react-native-toast-message";
 
-type FormDataProps = {
+export interface FormDataProps {
     name: string;
     email: string;
     cnpj: string;

@@ -23,7 +23,7 @@ export default function SelectOwner() {
     const { setUserOwner, ipAPI } = useAuth();
 
     async function loadAllOwners() {
-        const ownersArr = await getOwners(ipAPI);
+        const ownersArr = await getOwners();
 
         if (!ownersArr) {
             Toast.show({

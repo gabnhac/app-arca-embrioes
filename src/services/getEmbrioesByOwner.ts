@@ -1,6 +1,6 @@
 import { api } from "./api";
 
-export interface EmbriaoType {
+export type EmbriaoType = {
     cod_embriao: number;
     id_macho: string;
     id_femea: string;

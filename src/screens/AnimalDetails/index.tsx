@@ -19,7 +19,7 @@ import Select from "@components/Select";
 import Button from "@components/Button";
 import { useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { pesoMask } from "@utils/pesoMask";
+import { numberMask } from "@utils/numberMask";
 import postAnimal from "@services/postAnimal";
 import { useAuth } from "../../hooks/useAuth";
 import Toast from "react-native-toast-message";
@@ -194,9 +194,9 @@ export default function AnimalDetails() {
                                     name="peso"
                                     render={({ field: { onChange, value } }) => (
                                         <Input
-                                            label="Peso"
+                                            label="Peso KG"
                                             onChangeText={(value) => {
-                                                const pesoformt = pesoMask(value)
+                                                const pesoformt = numberMask(value)
                                                 onChange(pesoformt)
                                             }}
                                             value={value}
@@ -206,7 +206,7 @@ export default function AnimalDetails() {
                                 />
                                     :
                                     <Input
-                                        label="Peso"
+                                        label="Peso KG"
                                         editable={false}
                                         value={peso.toString()}
                                     />

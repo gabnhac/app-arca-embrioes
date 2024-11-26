@@ -14,6 +14,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useAuth } from "../../hooks/useAuth";
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { AuthRoutes } from "@routes/auth.routes";
+import Login, { LoginType } from "@services/login";
+import Toast from "react-native-toast-message";
 
 type FormDataprops = {
     email: string;
@@ -27,10 +29,10 @@ const signInSchema = yup.object({
 
 type SignInRouteParams = RouteProp<AuthRoutes, 'signin'>
 
-export default function SignIn({ route: {params} }: { route: SignInRouteParams }) {
+export default function SignIn({ route: { params } }: { route: SignInRouteParams }) {
     const { height, width } = Dimensions.get('screen');
 
-    const {signInUser, signInLab} = useAuth();
+    const { setUserOwner, signInLab } = useAuth();
     const { UserType } = params;
     const { control, handleSubmit, formState: { errors } } = useForm<FormDataprops>({
         defaultValues: {
@@ -40,8 +42,19 @@ export default function SignIn({ route: {params} }: { route: SignInRouteParams }
         resolver: yupResolver(signInSchema)
     });
 
-    function handleSingIn({ email, password }: FormDataprops) {
-        UserType === 'OWNER' ? signInUser(email, password) : signInLab(email, password)
+    async function handleSignInOwner({ email, senha }: LoginType) {
+        const response = await Login({ email: email, senha: senha } as LoginType);
+    
+        if (!response) {
+            return;
+        }
+        
+        setUserOwner(response.proprietario)
+    }
+    
+
+    function handleTypeSignIn({ email, password }: FormDataprops) {
+        UserType === 'OWNER' ? handleSignInOwner({ email: email, senha: password } as LoginType) : signInLab(email, password)
 
     }
     return (
@@ -91,7 +104,7 @@ export default function SignIn({ route: {params} }: { route: SignInRouteParams }
                                     autoCapitalize="none"
                                     onChangeText={onChange}
                                     value={value}
-                                    onSubmitEditing={handleSubmit(handleSingIn)}
+                                    onSubmitEditing={handleSubmit(handleTypeSignIn)}
                                     returnKeyType="send"
                                     errorMessage={errors.password?.message}
                                 />
@@ -102,7 +115,7 @@ export default function SignIn({ route: {params} }: { route: SignInRouteParams }
                         <Button
                             label="Entrar"
                             shadowWhite
-                            onPress={handleSubmit(handleSingIn)}
+                            onPress={handleSubmit(handleTypeSignIn)}
                         />
                     </WrapperForm>
                 </ContainerContent>

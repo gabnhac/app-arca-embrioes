@@ -16,7 +16,7 @@ export const Container = styled.View`
 export const Content = styled.View`
     background-color: #FFFFFF;
     width: 60%;
-    height: 35%;
+    height: 300px;
 
 
     border-radius: 15px;

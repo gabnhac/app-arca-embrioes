@@ -11,6 +11,7 @@ import { ipMask } from "@utils/ipMask";
 import { useNavigation } from "@react-navigation/native";
 import { AuthNavigatorRoutesProps } from "@routes/auth.routes";
 import theme from "@theme/index";
+import { configureApi } from "@services/api";
 
 type FormIp = {
     ip: string;
@@ -32,6 +33,7 @@ export default function RegisterIp() {
 
     function handleSetIp({ ip }: FormIp) {
         setAPI(ip);
+        configureApi(ip);
         console.log(`IP definido como: ${ip}`); 
     }
 

@@ -8,7 +8,6 @@ export type AuthContextDataProps = {
   user: UserDTO;
   userLab: LabDTO;
   setUserOwner: (owner: OwnerType) => void;
-  signInUser: (email: string, password: string) => void;
   signInLab: (email: string, password: string) => void;
   ipAPI: IpAPI;
   setAPI: (ip: string) => void;
@@ -35,22 +34,6 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
   const [user, setUser] = useState({} as UserDTO);
   const [userLab, setUserLab] = useState({} as LabDTO);
   const [ipAPI, setIpAPI] = useState<IpAPI>('0');
-
-  function signInUser(email: string, password: string) {
-    const { emailCheck, passwordCheck } = dummyDataLogin;
-    if (email === emailCheck && password === passwordCheck) {
-      setUser({
-        id: 1,
-        CNPJ: '12345678910123',
-        DDD: 34,
-        email: 'user@gmail.com',
-        razao_social: 'User Farm',
-        telefone: 912345678
-      })
-    } else {
-      console.error('erro ao logar');
-    }
-  }
 
   function signInLab(email: string, password: string) {
     const { emailCheckLab, passwordCheckLab } = dummyDataLoginLab;
@@ -80,7 +63,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
   }
 
   return (
-    <AuthContext.Provider value={{ userLab, user, signInUser, signInLab, setUserOwner, setAPI, ipAPI }}>
+    <AuthContext.Provider value={{ userLab, user, signInLab, setUserOwner, setAPI, ipAPI }}>
       {children}
     </AuthContext.Provider>
   )

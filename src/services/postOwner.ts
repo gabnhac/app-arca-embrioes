@@ -20,11 +20,11 @@ export default async function postOwner(
     }: OwnerPost) {
     try {
         const response = await api.post('/proprietario', {
-            cnpj: cnpj,
-            ddd: ddd,
-            email: email,
             razao_social: razao_social,
-            telefone: telefone,
+            CNPJ: cnpj,
+            email: email,
+            numero_telefone: telefone,
+            DDD: ddd,
             senha: senha,
         });
 

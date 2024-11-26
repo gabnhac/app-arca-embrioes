@@ -27,7 +27,7 @@ export default function CardStock({border = false, color, count, description, si
             <WrapperAdd
                 onPress={showModalAdd}
             >
-                <Feather name="plus-circle" size={30} color="#FFFFFF" />
+                <Feather name="plus-circle" size={40} color="#FFFFFF" />
             </WrapperAdd>
         </Container>
     )

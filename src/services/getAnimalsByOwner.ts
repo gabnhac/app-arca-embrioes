@@ -1,4 +1,4 @@
-import {api, configureApi} from "./api";
+import {api} from "./api";
 
 export interface AnimalType {
     id_animal: number;
@@ -9,8 +9,7 @@ export interface AnimalType {
     cod_raca: number;
 }
 
-export default async function getAnimalsByOwner(id: number, ip: string): Promise<AnimalType[] | undefined> {
-    configureApi(ip);
+export default async function getAnimalsByOwner(id: number): Promise<AnimalType[] | undefined> {
     try {
         const response = await api.get(`/animal/proprietario/${id}`);
         

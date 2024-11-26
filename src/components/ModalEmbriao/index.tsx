@@ -5,22 +5,32 @@ import Select from "@components/Select";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Input from "@components/Input/Input";
 import Button from "@components/Button";
+import { AnimalType } from "@services/getAnimalsByOwner";
+import postEmbriao from "@services/postEmbriao";
+import Toast from "react-native-toast-message";
+import { useNavigation } from "@react-navigation/native";
+import { AppNavigatorRouteProps } from "@routes/app.routes";
 
 type Props = ModalProps & {
     visible: boolean;
     onClose: () => void;
+    machos: AnimalType[];
+    femeas: AnimalType[]
 };
 
-export default function ModalEmbriao({ visible, onClose, ...rest }: Props) {
+export default function ModalEmbriao({ visible, onClose, machos, femeas, ...rest }: Props) {
     const [dataColeta, setDataColeta] = useState(new Date());
-    const [dataDescongelamento, setDataDescongelamento] = useState(new Date());
+    const [dataDescongelamento, setDataDescongelamento] = useState<Date | null>(null);
     const [dataCongelamento, setDataCongelamento] = useState(new Date());
+    const [femeaSelected, setFemeaSelected] = useState(femeas[0]);
+    const [machoSelected, setMachoSelected] = useState(machos[0]);
 
     const [showDataCo, setShowDataCo] = useState(false);
     const [showDataCon, setShowDataCon] = useState(false);
     const [showDataDes, setShowDataDes] = useState(false);
 
-    const [initialValueLastDate, setInitialValueLastDate] = useState();
+    const optionsFemea = femeas.map((item) => item.brinco );
+    const optionsMacho = machos.map((item) => item.brinco );
 
     const formatDate = (date: Date) => {
         return new Intl.DateTimeFormat('pt-BR', {
@@ -55,10 +65,41 @@ export default function ModalEmbriao({ visible, onClose, ...rest }: Props) {
         if (Platform.OS === 'android') {
             setShowDataDes(false);
         }
-    };
+    }
 
-    function handleRegisterEmbriao(){
+    function defineMachoSelected(brinco: string){
+        const macho = machos.find((item) => item.brinco === brinco)
+        if(macho)
+            setMachoSelected(macho);
+    }
+    function defineFemeaSelected(brinco: string){
+        const femea = femeas.find((item) => item.brinco === brinco)
+        if(femea)
+            setFemeaSelected(femea);
+    }
 
+    async function handleRegisterEmbriao(){
+        const response = await postEmbriao({
+            id_macho: machoSelected.id_animal,
+            id_femea: femeaSelected.id_animal,
+            data_fecundacao: dataColeta,
+            data_congelamento: dataCongelamento,
+            data_descongelamento: dataDescongelamento
+        })
+
+        if(response?.status === 200){
+            Toast.show({
+                type: 'success',
+                position: 'bottom',
+                text1: 'Embrião criado'
+            });
+        }else{
+            Toast.show({
+                type: 'error',
+                position: 'bottom',
+                text1: 'Falha na criação do embrião'
+            });
+        }
     }
 
     return (
@@ -76,15 +117,15 @@ export default function ModalEmbriao({ visible, onClose, ...rest }: Props) {
                             <WrapperInfoInput>
                                 <InfoText>Macho: </InfoText>
                                 <Select
-                                    options={['Opção 1', 'Opção 2']}
-                                    setOption={() => {}}
+                                    options={optionsMacho}
+                                    setOption={defineMachoSelected}
                                 />
                             </WrapperInfoInput>
                             <WrapperInfoInput>
                                 <InfoText>Fêmea: </InfoText>
                                 <Select
-                                    options={['Opção 1']}
-                                    setOption={() => {}}
+                                    options={optionsFemea}
+                                    setOption={defineFemeaSelected}
                                 />
                             </WrapperInfoInput>
                             <WrapperInfoInput>
@@ -131,7 +172,7 @@ export default function ModalEmbriao({ visible, onClose, ...rest }: Props) {
                                     <DateTimePicker
                                         mode="date"
                                         display="spinner"
-                                        value={dataDescongelamento}
+                                        value={dataDescongelamento ? dataDescongelamento : new Date()}
                                         onChange={onChangeDes}
                                     />
                                 )}
@@ -140,9 +181,10 @@ export default function ModalEmbriao({ visible, onClose, ...rest }: Props) {
                                 >
                                     <Input
                                         placeholder={
-                                            initialValueLastDate &&
+                                            dataDescongelamento !== null ?
                                             formatDate(dataDescongelamento)
-                                        
+                                            :
+                                            ''
                                         }
                                         editable={false}
                                     />
@@ -150,7 +192,9 @@ export default function ModalEmbriao({ visible, onClose, ...rest }: Props) {
                             </WrapperInfoInput>
                             <Button
                                 label="Criar"
-                                onPress={handleRegisterEmbriao}
+                                onPress={
+                                    handleRegisterEmbriao
+                                }
                                 colorType="SECONDARY"
                                 style={{alignSelf: 'center'}}
                             />

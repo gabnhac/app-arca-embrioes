@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FlatList, View } from "react-native";
 
 import {
@@ -29,11 +29,12 @@ import Feather from '@expo/vector-icons/Feather';
 
 import theme from "@theme/index";
 import Loading from "@components/Loading";
+import { setDoadorasRedux, setDoadoresRedux } from "@store/animal/reportSlice";
 
 
 export default function Home() {
 
-    const { user, userLab, ipAPI } = useAuth();
+    const { user, userLab } = useAuth();
 
     const [doadoras, setDoadoras] = useState<AnimalType[]>();
     const [doadores, setDoadores] = useState<AnimalType[]>();
@@ -47,7 +48,7 @@ export default function Home() {
 
     async function loadAnimals(id: number) {
         setIsLoading(true);
-        const response = await getAnimalsByOwner(id, ipAPI);
+        const response = await getAnimalsByOwner(id);
 
         if (!response) {
             return
@@ -65,6 +66,8 @@ export default function Home() {
         }
         setDoadoras(doadorasArr);
         setDoadores(doadoresArr);
+        dispatch(setDoadorasRedux(doadorasArr));
+        dispatch(setDoadoresRedux(doadoresArr));
         setIsLoading(false);
     }
 
@@ -90,7 +93,7 @@ export default function Home() {
             setIsSelectedDoadoras(false);
         }
     }
-
+    
     useFocusEffect(
         React.useCallback(() => {
             loadAnimals(user.id);
@@ -101,7 +104,8 @@ export default function Home() {
         }, [])
     )
 
-    console.log(doadoras, doadores)
+    console.log('doadoras home', doadoras);
+    console.log('doadores home', doadores);
     return (
         <Container>
             <Header>
@@ -175,13 +179,13 @@ export default function Home() {
                             <View style={{ marginBottom: 10 }} >
                                 <CardAnimal
                                     key={index}
-                                    raca={'modegus'}
+                                    raca={'HEREFORD'}
                                     peso={item.peso}
                                     brinco={item.brinco}
                                     onPress={() =>
                                         handleSelectAnimal(
                                             {
-                                                raca: 'modegus',
+                                                raca: 'HEREFORD',
                                                 brinco: item.brinco,
                                                 material: 10,
                                                 nome: item.nome,
@@ -191,7 +195,9 @@ export default function Home() {
                                         )
                                     }
                                 />
+                                
                             </View>
+                    
                         )}
                     />}
 
