@@ -59,8 +59,7 @@ export default function RegisterIp() {
                         <Input
                             placeholder="Digite seu ip"
                             onChangeText={(text) => {
-                                const newText = ipMask(text)
-                                onChange(newText);
+                                onChange(text);
                             }}
                             value={value}
                             errorMessage={errors.ip?.message}

@@ -11,6 +11,7 @@ export const Header = styled.View`
     flex-direction: column;
     justify-content: flex-end;
     align-items: center;
+
 `;
 
 export const Footer = styled.View`

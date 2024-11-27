@@ -23,6 +23,7 @@ import { numberMask } from "@utils/numberMask";
 import postAnimal from "@services/postAnimal";
 import { useAuth } from "../../hooks/useAuth";
 import Toast from "react-native-toast-message";
+import { selectRacasRedux } from "@store/animal/reportSlice";
 
 type FormDataProps = {
     nome: string;
@@ -39,10 +40,11 @@ export default function AnimalDetails() {
     const style = theme;
 
     const [sexoSelected, setSexoSelected] = useState<SexoType>('M');
-    const [racaSelected, setRacaSelected] = useState(1);
+    const [racaSelected, setRacaSelected] = useState('1');
 
+    const racas = useSelector(selectRacasRedux);
+    
     const optionsSexo = ['M', 'F'];
-    const optionsRaca = ['Angus', 'Hereford'];
 
     const { brinco, material, nome, peso, raca, sexo } = useSelector(selectAnimal);
 
@@ -63,13 +65,17 @@ export default function AnimalDetails() {
         setSexoSelected(sexo);
     }
 
-    function setStaticRaca(raca: RacaType) {
-        if(raca === 'Angus'){
-            setRacaSelected(1);
-        }else{
-            setRacaSelected(2)
-        }
+    function getOptionsRaca(){
+        return racas.map((item) => item.descricao)
     }
+
+    function setOptionRaca(racaDescricao: string){
+        const raca = racas.find((item) => item.descricao = racaDescricao);
+
+        if(raca)
+            setRacaSelected(raca?.cod_raca);
+    }
+
 
     async function handleRegisterAnimal({brinco, nome, peso}: FormDataProps) {
         const response = await postAnimal({
@@ -80,7 +86,6 @@ export default function AnimalDetails() {
             cod_raca: racaSelected,
             id_proprietario: user.id
         })
-        console.log(response?.status);
 
         if(response?.status === 200 ){
             Toast.show({
@@ -162,8 +167,9 @@ export default function AnimalDetails() {
 
                         {isAdd ? <Select
                             label="Raça"
-                            options={optionsRaca}
-                            setOption={setStaticRaca}
+                            options={getOptionsRaca()}
+                            setOption={setOptionRaca}
+                            
                         />
                             :
                             <Input

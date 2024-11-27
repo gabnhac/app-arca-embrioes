@@ -48,6 +48,8 @@ export const WrapperOptions = styled(Animated.View)`
 
 export const Option = styled(TouchableOpacity)`
     width: 100%;
+    padding-top: 5px;
+    padding-bottom: 5px;
 
 `;
 

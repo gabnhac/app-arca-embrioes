@@ -2,7 +2,7 @@ import { api } from "./api";
 
 type AnimalPost = {
     nome: string;
-    cod_raca: number;
+    cod_raca: string;
     sexo: string;
     peso: number;
     brinco: string;

@@ -6,7 +6,7 @@ export interface AnimalType {
     nome: string;
     peso: number;
     sexo: string;
-    cod_raca: number;
+    cod_raca: string;
 }
 
 export default async function getAnimalsByOwner(id: number): Promise<AnimalType[] | undefined> {

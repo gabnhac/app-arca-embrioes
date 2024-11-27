@@ -37,7 +37,6 @@ export default function Presentation() {
                 <View 
                     style={{
                         position: 'relative',
-                        bottom: 70
                     }}
                 >
                     <CardLogoPresentation />

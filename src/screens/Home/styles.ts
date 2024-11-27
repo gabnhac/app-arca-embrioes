@@ -40,8 +40,7 @@ export const Animals = styled.View`
 `;
 
 export const AnimalList = styled.View`
-    width: 100%;
-
+    flex: 1;
     align-items: center;
 
 `;
