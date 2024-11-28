@@ -1,15 +1,15 @@
 import styled from "styled-components/native";
 
 export const Container = styled.View`
-    width: 250px;
+    width: 90%;
     height: 50px;
 
     flex-direction: row;
     align-items: center;
+    align-self: center;
     justify-content: space-around;
 
     background-color: #FFFFFF;
-
     border-radius: 15px;
     border-bottom-width: 4px;
     border-bottom-color:  ${({theme}) => theme.COLORS.FRENCH_GRAY};

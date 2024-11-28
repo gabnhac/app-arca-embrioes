@@ -34,7 +34,7 @@ export default function AppRoutes() {
         <Navigator
             screenOptions={{
                 headerShown: false,
-                animationTypeForReplace: "pop"
+                animation: 'ios'
             }}
             initialRouteName={userLab.CNPJ ? 'select_owner' : 'home'}
         >

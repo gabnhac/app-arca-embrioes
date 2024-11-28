@@ -26,7 +26,7 @@ export default function Select({ options, label, setOption, ...rest }: Props) {
     useDerivedValue(() => {
         optionsHeight.value =
             optionsVisivel
-                ? withTiming(55, { duration: 100 })
+                ? withTiming(75, { duration: 100 })
                 : withTiming(0, { duration: 100 });
     });
 

@@ -32,7 +32,6 @@ type FormDataProps = {
 }
 
 type SexoType = 'M' | 'F';
-type RacaType = 'Angus' | 'Hereford';
 
 export default function AnimalDetails() {
     const {user} = useAuth();
@@ -40,15 +39,17 @@ export default function AnimalDetails() {
     const style = theme;
 
     const [sexoSelected, setSexoSelected] = useState<SexoType>('M');
-    const [racaSelected, setRacaSelected] = useState('1');
+    const [racaSelected, setRacaSelected] = useState('A');
 
     const racas = useSelector(selectRacasRedux);
     
+    console.log(racaSelected)
     const optionsSexo = ['M', 'F'];
 
-    const { brinco, material, nome, peso, raca, sexo } = useSelector(selectAnimal);
+    const { brinco, nome, peso, raca, sexo } = useSelector(selectAnimal);
 
     const isAdd = raca.length < 1;
+    
     const dispatch = useDispatch();
 
     const registerAnimal = yup.object({
@@ -64,18 +65,6 @@ export default function AnimalDetails() {
     function setSexo(sexo: SexoType) {
         setSexoSelected(sexo);
     }
-
-    function getOptionsRaca(){
-        return racas.map((item) => item.descricao)
-    }
-
-    function setOptionRaca(racaDescricao: string){
-        const raca = racas.find((item) => item.descricao = racaDescricao);
-
-        if(raca)
-            setRacaSelected(raca?.cod_raca);
-    }
-
 
     async function handleRegisterAnimal({brinco, nome, peso}: FormDataProps) {
         const response = await postAnimal({
@@ -101,6 +90,10 @@ export default function AnimalDetails() {
                 position: 'bottom'
             })
         }
+    }
+
+    function setRaca(raca: string){
+        setRacaSelected(raca);
     }
 
     return (
@@ -167,8 +160,8 @@ export default function AnimalDetails() {
 
                         {isAdd ? <Select
                             label="Raça"
-                            options={getOptionsRaca()}
-                            setOption={setOptionRaca}
+                            options={['A','B', 'C']}
+                            setOption={setRaca}
                             
                         />
                             :

@@ -34,12 +34,11 @@ export const WrapperTitle = styled.View`
 export const Animals = styled.View`
     flex: 1;
     align-items: center;
-
-
     gap: 20px;
 `;
 
 export const AnimalList = styled.View`
+    width: 100%;
     flex: 1;
     align-items: center;
 

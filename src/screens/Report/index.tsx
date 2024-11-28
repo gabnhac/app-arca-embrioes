@@ -10,8 +10,8 @@ import getEmbrioesByOwner, { EmbriaoType } from "@services/getEmbrioesByOwner";
 import ModalEmbriao from "@components/ModalEmbriao";
 import ModalMateriais from "@components/ModalOocito";
 import getSemenByAnimal from "@services/getSemenByAnimal";
-import { useSelector } from "react-redux";
-import { selectDoadorasRedux, selectDoadoresRedux } from "@store/animal/reportSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { selectDoadorasRedux, selectDoadoresRedux, setEmbrioesRedux, setOocitoByDoadorasRedux, setSemenByDoadoresRedux } from "@store/animal/reportSlice";
 import getOocitoByAnimal from "@services/getOocitoByAnimal";
 import ModalOocito from "@components/ModalOocito";
 import ModalSemen from "@components/ModalSemen";
@@ -21,6 +21,8 @@ export default function Report() {
     const navigation = useNavigation<AppNavigatorRouteProps>();
 
     const { user } = useAuth();
+
+    const dispatch = useDispatch();
 
     const doadoras = useSelector(selectDoadorasRedux);
     const doadores = useSelector(selectDoadoresRedux);
@@ -35,6 +37,7 @@ export default function Report() {
         const response = await getEmbrioesByOwner(user.id);
 
         if (response && response.length > 0) {
+            dispatch(setEmbrioesRedux(response));
             setEmbrioes(response);
         }
     }
@@ -48,6 +51,7 @@ export default function Report() {
         const response = await getSemenByAnimal(idDoadores);
 
         if (response) {
+            dispatch(setSemenByDoadoresRedux(response));
             for (const material of response) {
                 total += material.Quantidade;
             }
@@ -64,6 +68,8 @@ export default function Report() {
         const response = await getOocitoByAnimal(idDoadoras);
 
         if (response) {
+
+            dispatch(setOocitoByDoadorasRedux(response));
             for (const material of response) {
                 total += material.Quantidade;
             }
@@ -77,9 +83,7 @@ export default function Report() {
         loadEmbrioes();
         loadSemen();
         loadOocito();
-    }, [reloadScreen])
-
-
+    }, [reloadScreen]);
 
     const [isVisibleEmbriao, setIsVisibleEmbriao] = useState(false);
     const [isVisibleSemen, setIsVisibleSemen] = useState(false);
@@ -158,7 +162,7 @@ export default function Report() {
                     count={embrioes?.length || 0}
                     description="Total Embriões"
                     size="LARGE"
-                    onPress={() => navigation.navigate('material_animal', { materialName: 'Embriões' })}
+                    onPress={() => navigation.navigate('material_details')}
                     showModalAdd={openModalEmbriao}
                 />
 

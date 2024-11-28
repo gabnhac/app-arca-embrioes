@@ -29,8 +29,8 @@ import Feather from '@expo/vector-icons/Feather';
 
 import theme from "@theme/index";
 import Loading from "@components/Loading";
-import { setDoadorasRedux, setDoadoresRedux, setRacasRedux } from "@store/animal/reportSlice";
-import getRacas, { RacaType } from "@services/getRacas";
+import { setDoadorasRedux, setDoadoresRedux } from "@store/animal/reportSlice";
+import getRacas from "@services/getRacas";
 
 
 export default function Home() {
@@ -39,7 +39,6 @@ export default function Home() {
 
     const [doadoras, setDoadoras] = useState<AnimalType[]>();
     const [doadores, setDoadores] = useState<AnimalType[]>();
-    const [racas, setRacas] = useState<RacaType[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [isResponse, setIsResponse] = useState(false);
     const [isSelectedDoadoras, setIsSelectedDoadoras] = useState(true);
@@ -55,7 +54,6 @@ export default function Home() {
         if (!response) {
             return
         }
-        console.log('animals',response);
         setIsResponse(true);
         let doadoresArr = [];
         let doadorasArr = [];
@@ -71,6 +69,13 @@ export default function Home() {
         dispatch(setDoadorasRedux(doadorasArr));
         dispatch(setDoadoresRedux(doadoresArr));
         setIsLoading(false);
+    }
+
+    async function loadRacas() {
+        const response =  await getRacas();
+        if(response){
+            console.log('RACAS', response);
+        }
     }
 
     function handleSelectAnimal({ brinco, material, nome, peso, raca, sexo }: animalState) {
@@ -96,26 +101,6 @@ export default function Home() {
         }
     }
 
-    async function loadRacas(){
-        const response = await getRacas();
-        
-        if(response){
-            setRacas(response);
-            dispatch(setRacasRedux(response));
-        }
-        
-    }
-
-    function defineRacaAnimal(idRaca: string){
-        const raca = racas.find((item) => item.cod_raca = idRaca)
-         
-        if(raca){
-            return raca.descricao
-        }
-
-        return 'SEM RAÇA'
-    }
-
     useFocusEffect(
         React.useCallback(() => {
             loadAnimals(user.id);
@@ -126,9 +111,6 @@ export default function Home() {
         }, [])
     )
 
-    // console.log('doadoras home', doadoras);
-    // console.log('doadores home', doadores);
-     console.log('RACAS', racas);
     return (
         <Container>
             <Header>
@@ -200,13 +182,13 @@ export default function Home() {
                             <View style={{ marginBottom: 10 }} >
                                 <CardAnimal
                                     key={index}
-                                    raca={defineRacaAnimal(item.cod_raca)}
+                                    raca={'A'}
                                     peso={item.peso}
                                     brinco={item.brinco}
                                     onPress={() =>
                                         handleSelectAnimal(
                                             {
-                                                raca: defineRacaAnimal(item.cod_raca),
+                                                raca: 'A',
                                                 brinco: item.brinco,
                                                 material: 10,
                                                 nome: item.nome,

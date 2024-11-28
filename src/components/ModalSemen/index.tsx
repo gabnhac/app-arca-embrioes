@@ -31,20 +31,20 @@ export default function ModalSemen({ onClose, machos, ...rest }: Props) {
             Toast.show({
                 type: 'success',
                 position: 'bottom',
-                text1: 'Oócito criado'
+                text1: 'Semen criado com sucesso'
             });
         } else {
             Toast.show({
                 type: 'error',
                 position: 'bottom',
-                text1: 'Falha na criação do oócito'
+                text1: 'Falha na criação do Semen'
             });
         }
     }
 
 
 
-    console.log('ANIMAL SELECTED MACHO', animalSelected)
+
 
     function defineMachoSelected(brinco: string) {
         const macho = machos.find((item) => item.brinco === brinco);
@@ -71,7 +71,7 @@ export default function ModalSemen({ onClose, machos, ...rest }: Props) {
                     <TouchableWithoutFeedback onPress={() => { }}>
                         <Content>
                             <InfoText style={{ alignSelf: 'center', fontSize: 17 }}>
-                                Adicione um Oócito
+                                Adicione um Semen
                             </InfoText>
 
                             <WrapperInfoInput>

@@ -1,9 +1,10 @@
 import { api } from "./api";
 
-export interface RacaType {
+type RacaType = {
     cod_raca: string;
     descricao: string;
 };
+
 
 export default async function getRacas(): Promise<RacaType[] | undefined> {
     try {
@@ -14,6 +15,7 @@ export default async function getRacas(): Promise<RacaType[] | undefined> {
 
         if (jsonStartIndex !== -1) {
             const jsonData: RacaType[] = JSON.parse(dataString.slice(jsonStartIndex));
+
             return jsonData;
         } else {
             console.error("Dados JSON de racas não encontrados na resposta.");

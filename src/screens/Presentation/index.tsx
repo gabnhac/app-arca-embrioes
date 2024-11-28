@@ -34,11 +34,7 @@ export default function Presentation() {
                     style={{position: 'absolute'}}
                 />
 
-                <View 
-                    style={{
-                        position: 'relative',
-                    }}
-                >
+                <View>
                     <CardLogoPresentation />
                 </View>
 

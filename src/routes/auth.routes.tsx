@@ -22,7 +22,7 @@ export default function AuthRoutes(){
         <Navigator
             screenOptions={{
                 headerShown: false,
-                animationTypeForReplace: "pop"
+                animation: 'fade_from_bottom'
             }}
             initialRouteName='register_ip'
         >

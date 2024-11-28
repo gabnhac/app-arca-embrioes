@@ -31,13 +31,13 @@ export default function ModalOocito({ onClose, femeas, ...rest }: Props) {
             Toast.show({
                 type: 'success',
                 position: 'bottom',
-                text1: 'Oócito criado'
+                text1: 'Óocito criado com sucesso'
             });
         } else {
             Toast.show({
                 type: 'error',
                 position: 'bottom',
-                text1: 'Falha na criação do oócito'
+                text1: 'Falha na criação do óocito'
             });
         }
     }

@@ -23,12 +23,15 @@ export const WrapperContent = styled.View`
 `;
 
 export const WrapperFlatList = styled.View`
-    width: 80%;
-    height: 50%;
+    width: 90%;
+    height: 60%;
     background-color: ${({theme}) => theme.COLORS.SOFT_VIOLET};
-    padding: 20px;
-
+    padding: 20px 0;
     border-radius: 10px;
+
+    gap: 10px;
+
+    justify-content: center;
 `;
 
 
