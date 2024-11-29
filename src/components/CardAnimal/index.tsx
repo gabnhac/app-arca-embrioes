@@ -5,12 +5,11 @@ import Title from "@components/Title/Title";
 type Props = TouchableOpacityProps & {
     raca: string;
     peso: number;
-    idade: number;
     brinco: string | number;
 }
 //padronizar as raças posssíveis com enum
 //padronizar o brinco, que pode ser string | number
-export default function CardAnimal({raca, peso, idade, brinco, ...rest}: Props){
+export default function CardAnimal({raca, peso, brinco, ...rest}: Props){
     return(
         <Container
             {...rest}
@@ -25,9 +24,6 @@ export default function CardAnimal({raca, peso, idade, brinco, ...rest}: Props){
                 <WrapperInfoTexts>
                     <View>
                         <InfoText>{peso}KG</InfoText>
-                    </View>
-                    <View>
-                        <InfoText>{idade} ANOS</InfoText>
                     </View>
                     <InfoText>#{brinco}</InfoText>
                 </WrapperInfoTexts>

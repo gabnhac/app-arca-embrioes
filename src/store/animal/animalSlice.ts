@@ -4,9 +4,8 @@ import { type animalState } from "./types";
 
 const initialState = {
     raca: '',
-    idade: 0,
     peso: 0,
-    brinco: "",
+    brinco: '',
     sexo: '',
     nome: '',
     material: 0,
@@ -20,9 +19,6 @@ export const animalSlice = createSlice({
     reducers: {
         setRaca: (state, { payload }: PayloadAction<string>) => {
             state.raca = payload;
-        },
-        setIdade: (state, { payload }: PayloadAction<number>) => {
-            state.idade = payload;
         },
         setPeso: (state, { payload }: PayloadAction<number>) => {
             state.peso = payload;
@@ -51,7 +47,6 @@ export const animalSlice = createSlice({
 export const {
     setAnimal,
     setBrinco,
-    setIdade,
     setMaterial,
     setNome,
     setPeso,

@@ -9,6 +9,7 @@ import { store } from '@store/index'
 import { Provider } from 'react-redux'
 
 import { AuthContextProvider } from './src/context/AuthContext';
+import Toast from 'react-native-toast-message';
 
 export default function App() {
   const [fontsLoaded] = useFonts({ Montserrat_400Regular });
@@ -16,12 +17,13 @@ export default function App() {
     <ThemeProvider theme={theme}>
       <Provider store={store}>
           <StatusBar
-            barStyle="dark-content"
+            barStyle="light-content"
             backgroundColor="transparent"
             translucent
           />
           <AuthContextProvider>
             {fontsLoaded ? <Routes /> : <ActivityIndicator style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}/>}
+            <Toast />
           </AuthContextProvider>
       </Provider>
     </ThemeProvider>

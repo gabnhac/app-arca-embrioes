@@ -19,8 +19,8 @@ export const Container = styled(TouchableOpacity) <CardStockStyleProps>`
 
     ${({ size }) =>
         size === "MEDIUM" && css`
-            height: 130px;
-            width: 130px;
+            height: 150px;
+            width: 150px;
         `
     }
 
@@ -81,3 +81,5 @@ export const TextDescription = styled.Text`
     font-size: 13px;
     font-family: ${({theme}) => theme.FONT_FAMILY.BODY};
 `;
+
+export const WrapperAdd = styled.TouchableOpacity``;

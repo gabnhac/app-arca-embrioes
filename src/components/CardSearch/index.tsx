@@ -1,17 +1,19 @@
-import { TextInput } from "react-native";
-import { ButtonSearch, Container, Input, WrapperButtonSearch, WrapperTextInput } from "./styles";
+import { TextInputProps } from "react-native";
+import { Container, Input, WrapperButtonSearch, WrapperTextInput } from "./styles";
 import Octicons from '@expo/vector-icons/Octicons';
 
-export default function CardSearch(){
+type Props = TextInputProps & {
+
+}
+
+export default function CardSearch({...rest}: Props){
     return(
         <Container>
             <WrapperTextInput>
-                <Input placeholder="Search"/>
+                <Input {...rest}/>
             </WrapperTextInput>
             <WrapperButtonSearch>
-                <ButtonSearch>
                     <Octicons name="search" size={24} color="#A7A9AC" />
-                </ButtonSearch>
             </WrapperButtonSearch>
         </Container>
     )

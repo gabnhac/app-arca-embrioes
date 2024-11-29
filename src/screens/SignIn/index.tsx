@@ -8,12 +8,14 @@ import Input from "@components/Input/Input";
 import Button from "@components/Button";
 import BackgroundImg from "@assets/pastoBackground.jpg";
 
-import { useNavigation } from "@react-navigation/native";
-import { AuthNavigatorRoutesProps } from "@routes/auth.routes";
 import { Controller, useForm } from "react-hook-form";
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useAuth } from "../../hooks/useAuth";
+import { RouteProp, useRoute } from "@react-navigation/native";
+import { AuthRoutes } from "@routes/auth.routes";
+import Login, { LoginType } from "@services/login";
+import Toast from "react-native-toast-message";
 
 type FormDataprops = {
     email: string;
@@ -25,15 +27,13 @@ const signInSchema = yup.object({
     password: yup.string().required('Informe a senha')
 })
 
+type SignInRouteParams = RouteProp<AuthRoutes, 'signin'>
 
-
-export default function SignIn() {
+export default function SignIn({ route: { params } }: { route: SignInRouteParams }) {
     const { height, width } = Dimensions.get('screen');
 
-    const navigation = useNavigation<AuthNavigatorRoutesProps>()
-
-    const {signIn} = useAuth();
-
+    const { setUserOwner, signInLab } = useAuth();
+    const { UserType } = params;
     const { control, handleSubmit, formState: { errors } } = useForm<FormDataprops>({
         defaultValues: {
             email: '',
@@ -42,12 +42,20 @@ export default function SignIn() {
         resolver: yupResolver(signInSchema)
     });
 
-    function handleNavigateSignUp() {
-        navigation.navigate("signup");
+    async function handleSignInOwner({ email, senha }: LoginType) {
+        const response = await Login({ email: email, senha: senha } as LoginType);
+    
+        if (!response) {
+            return;
+        }
+        
+        setUserOwner(response.proprietario)
     }
+    
 
-    function handleSingIn({ email, password }: FormDataprops) {
-        signIn(email, password); 
+    function handleTypeSignIn({ email, password }: FormDataprops) {
+        UserType === 'OWNER' ? handleSignInOwner({ email: email, senha: password } as LoginType) : signInLab(email, password)
+
     }
     return (
         <Container>
@@ -96,7 +104,7 @@ export default function SignIn() {
                                     autoCapitalize="none"
                                     onChangeText={onChange}
                                     value={value}
-                                    onSubmitEditing={handleSubmit(handleSingIn)}
+                                    onSubmitEditing={handleSubmit(handleTypeSignIn)}
                                     returnKeyType="send"
                                     errorMessage={errors.password?.message}
                                 />
@@ -107,13 +115,7 @@ export default function SignIn() {
                         <Button
                             label="Entrar"
                             shadowWhite
-                            onPress={handleSubmit(handleSingIn)}
-                        />
-
-                        <Button
-                            label="Crie uma Conta"
-                            colorType="SECONDARY"
-                            onPress={handleNavigateSignUp}
+                            onPress={handleSubmit(handleTypeSignIn)}
                         />
                     </WrapperForm>
                 </ContainerContent>

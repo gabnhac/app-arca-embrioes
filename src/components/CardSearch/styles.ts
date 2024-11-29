@@ -38,7 +38,3 @@ export const WrapperButtonSearch = styled.View`
     border-color: ${({theme}) => theme.COLORS.FRENCH_GRAY};
 `;
 
-export const ButtonSearch = styled.TouchableOpacity`
-    
-    
-`;

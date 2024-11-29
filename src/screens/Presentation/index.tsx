@@ -13,7 +13,7 @@ export default function Presentation() {
     const { height, width } = Dimensions.get('screen');
 
     function handleNavigateSignIn() {
-        navigation.navigate("signin")
+        navigation.navigate("select_user");
     }
     return (
         <Container>
@@ -34,12 +34,7 @@ export default function Presentation() {
                     style={{position: 'absolute'}}
                 />
 
-                <View 
-                    style={{
-                        position: 'relative',
-                        top: 60
-                    }}
-                >
+                <View>
                     <CardLogoPresentation />
                 </View>
 

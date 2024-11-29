@@ -7,31 +7,38 @@ import Entypo from '@expo/vector-icons/Entypo';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRouteProps } from "@routes/app.routes";
+import { useAuth } from "../../hooks/useAuth";
 
 
 
-export default function PopUpMenu({}) {
+export default function PopUpMenu({ }) {
 
     const [visible, setVisible] = useState(false);
     const navigation = useNavigation<AppNavigatorRouteProps>();
+    const { userLab } = useAuth();
 
     const navigateOptions = [
         {
             title: 'Perfil',
             icon: 'user',
-            action: () => navigation.navigate('profile')
+            action: () => navigation.navigate('profile'),
 
         },
         {
             title: 'Relatório',
             icon: 'piechart',
-            action: () => navigation.navigate('report')
+            action: () => navigation.navigate('report'),
         },
+        ...(userLab.CNPJ ? [{
+            title: 'Trocar proprietário',
+            icon: 'swap',
+            action: () => navigation.navigate('select_owner'),
+        }] : [])
     ]
 
     const scale = useRef(new Animated.Value(0)).current;
 
-    function resizeBox(to: number){
+    function resizeBox(to: number) {
         to === 1 && setVisible(true);
         Animated.timing(scale, {
             toValue: to,
@@ -47,12 +54,12 @@ export default function PopUpMenu({}) {
 
             </ButtonMenu>
             <Modal transparent visible={visible}>
-                <SafeAreaView style={{ flex: 1}} onTouchStart={() => resizeBox(0)}>
+                <SafeAreaView style={{ flex: 1 }} onTouchStart={() => resizeBox(0)}>
                     <WrapperOptions>
                         {navigateOptions.map((op, index) => (
                             <Option onPress={op.action} key={index}>
                                 <Text>{op.title}</Text>
-                                <AntDesign name={op.icon as 'user' | 'piechart'} size={24} color="#1A75BB" />
+                                <AntDesign name={op.icon as 'user' | 'piechart' | 'swap'} size={24} color="#1A75BB" />
                             </Option>
                         ))}
                     </WrapperOptions>

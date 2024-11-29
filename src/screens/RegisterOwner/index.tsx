@@ -6,14 +6,17 @@ import Button from "@components/Button";
 import BackgroundImg from "@assets/pastoBackground.jpg";
 import Title from "@components/Title/Title";
 import { useNavigation } from "@react-navigation/native";
-import { AuthNavigatorRoutesProps } from "@routes/auth.routes";
 import { Controller, useForm } from "react-hook-form";
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { cnpjMask } from "@utils/cnpjMask";
 import { telMask } from "@utils/telMask";
+import BackOption from "@components/BackOption";
+import { AppNavigatorRouteProps } from "@routes/app.routes";
+import postOwner from "@services/postOwner";
+import Toast from "react-native-toast-message";
 
-type FormDataProps = {
+export interface FormDataProps {
     name: string;
     email: string;
     cnpj: string;
@@ -22,14 +25,14 @@ type FormDataProps = {
     password_confirm: string;
 }
 
-const signUpSchema = yup.object({
+const registerOwnerSchema = yup.object({
     name: yup.string().required('Informe o nome'),
     email: yup.string().required('Informe o email').email('E-mail inválido'),
     cnpj: yup
         .string()
         .min(18, 'CNPJ inválido')
         .required('Informe o CNPJ'),
-        tel: yup
+    tel: yup
         .string()
         .min(15, 'Telefone inválido')
         .required('Informe o número de telefone'),
@@ -37,20 +40,42 @@ const signUpSchema = yup.object({
     password_confirm: yup.string().required('Confirme a senha').oneOf([yup.ref("password"), ""], 'A confirmação da senha não confere'),
 });
 
-export default function SignUp() {
+export default function RegisterOwner() {
     const { height, width } = Dimensions.get('screen');
     const { control, handleSubmit, formState: { errors } } = useForm<FormDataProps>({
-        resolver: yupResolver(signUpSchema),
+        resolver: yupResolver(registerOwnerSchema),
     });
 
-    const navigation = useNavigation<AuthNavigatorRoutesProps>();
+    const navigation = useNavigation<AppNavigatorRouteProps>();
 
-    function handleGoBack() {
-        navigation.goBack();
-    }
+    async function handleRegister({ cnpj, email, name, password, tel }: FormDataProps) {
+        const cnpjFormat = cnpj.replace(/\D/g, '');
+        const telNumber = Number(tel.replace(/\D/g, ''));
+        const ddd = Number(tel[1] + tel[2]);
+        console.log('data',{ cnpjFormat, ddd, email, name, password, telNumber })
+        const response = await postOwner({ 
+            cnpj: cnpjFormat, 
+            email, 
+            razao_social: name, 
+            senha: password, 
+            telefone: telNumber,
+            ddd
+        });
 
-    function handleSignUp({ cnpj, email, name, password, password_confirm, tel }: FormDataProps) {
-        console.log({ cnpj, email, name, password, password_confirm, tel });
+        if(response?.status === 200){
+            Toast.show({
+                position: 'bottom',
+                type: 'success',
+                text1: 'Proprietário cadastrado com sucesso'
+            })
+        }else{
+            Toast.show({
+                position: 'bottom',
+                type: 'error',
+                text1: 'Não foi possível cadastrar o proprietário'
+            })
+        }
+
     }
 
     return (
@@ -67,10 +92,16 @@ export default function SignUp() {
                 source={BackgroundImg}
                 alt="Gado no pasto"
             />
+            <BackOption
+                onPress={() => {
+                    navigation.goBack();
+                }}
+            />
             <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 30 }}>
                 <ContainerContent>
+                    
                     <Title
-                        title="Crie sua conta"
+                        title="Cadastre um novo proprietário"
                         typeFontSize={25}
                         typeFontWeight="BOLD"
                         typeColor="VIOLET"
@@ -127,7 +158,7 @@ export default function SignUp() {
                                     keyboardType="numeric"
                                     value={value}
                                     onChangeText={(text) => {
-                                        const formattedValue = telMask(text); 
+                                        const formattedValue = telMask(text);
                                         onChange(formattedValue);
                                     }}
                                     errorMessage={errors.tel?.message}
@@ -157,7 +188,7 @@ export default function SignUp() {
                                     secureTextEntry
                                     value={value}
                                     errorMessage={errors.password_confirm?.message}
-                                    onSubmitEditing={handleSubmit(handleSignUp)}
+                                    onSubmitEditing={handleSubmit(handleRegister)}
                                 />
                             )}
                         />
@@ -165,13 +196,7 @@ export default function SignUp() {
                         <Button
                             label="Criar"
                             shadowWhite
-                            onPress={handleSubmit(handleSignUp)}
-                        />
-
-                        <Button
-                            label="Voltar para login"
-                            colorType="SECONDARY"
-                            onPress={handleGoBack}
+                            onPress={handleSubmit(handleRegister)}
                         />
 
                     </WrapperForm>

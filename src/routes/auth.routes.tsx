@@ -1,46 +1,49 @@
 import {createNativeStackNavigator, NativeStackNavigationProp} from '@react-navigation/native-stack';
 import SignIn from '@screens/SignIn';
-import SignUp from '@screens/SignUp';
 import Presentation from '@screens/Presentation';
+import SelectUser from '@screens/SelectUser';
+import RegisterIp from '@screens/RegisterIp';
 
-type AuthRoutes = {
-    signin: undefined;
-    signup: undefined;
+export type AuthRoutes = {
+    register_ip: undefined;
+    signin: {
+        UserType: 'OWNER' | 'LAB'
+    }
     presentation: undefined,
+    select_user: undefined
 }
 
 export type AuthNavigatorRoutesProps =  NativeStackNavigationProp<AuthRoutes>;
 
 const {Navigator, Screen} = createNativeStackNavigator<AuthRoutes>();
 
-
 export default function AuthRoutes(){
     return(
         <Navigator
             screenOptions={{
                 headerShown: false,
+                animation: 'fade_from_bottom'
             }}
+            initialRouteName='register_ip'
         >
+            <Screen
+                name='register_ip'
+                component={RegisterIp}
+            />
             <Screen
                 name="presentation"
                 component={Presentation}
-                options={{
-                    animation:'none'
-                }}
+                
             />
             <Screen
                 name="signin"
                 component={SignIn}
-                options={{
-                    animation:'none'
-                }}
+                
             />
             <Screen
-                name="signup"
-                component={SignUp}
-                options={{
-                    animation:'none'
-                }}
+                name="select_user"
+                component={SelectUser}
+                
             /> 
             
         </Navigator>
