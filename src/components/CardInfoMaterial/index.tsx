@@ -1,6 +1,7 @@
+import { TouchableOpacityProps } from "react-native";
 import { Container, TextInfo } from "./styles";
 
-type Props = {
+type Props = TouchableOpacityProps & {
     macho: string;
     femea: string;
     dataFecundacao: string;
@@ -9,10 +10,12 @@ type Props = {
 }
 
 export default function({dataCongelamento, dataDescongelamento, dataFecundacao, femea,
-    macho
+    macho, ...rest
 }: Props){
     return(
-        <Container>
+        <Container
+            {...rest}
+        >
             <TextInfo>{macho}</TextInfo>
             <TextInfo>{femea}</TextInfo>
             <TextInfo>{dataFecundacao}</TextInfo>

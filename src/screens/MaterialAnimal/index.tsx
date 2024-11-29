@@ -16,6 +16,7 @@ type MaterialAnimalType = {
     raca: string;
     brinco: string;
     qtd: number;
+    sexo: string;
 }
 
 export default function MaterialAnimal({ route }: { route: MaterialAnimalRouteParams }) {
@@ -32,38 +33,38 @@ export default function MaterialAnimal({ route }: { route: MaterialAnimalRoutePa
     const [materialAnimal, setMaterialAnimal] = useState<MaterialAnimalType[]>();
 
     function searchByRaca(input: string) {
-        if (!materialAnimal) return; 
+        if (!materialAnimal) return;
 
-        if(input.length === 0){
+        if (input.length === 0) {
             defineTypeMaterialAnimal();
             return;
         }
 
         const searchQuery = input.toLowerCase();
 
-        const search = materialAnimal.filter(element => 
+        const search = materialAnimal.filter(element =>
             element.brinco.toLowerCase().includes(searchQuery) ||
             element.raca.toLowerCase().includes(searchQuery)
         );
-    
-    
+
+
         if (search.length > 0) {
             setMaterialAnimal(search);
         } else {
-            setMaterialAnimal([]);  
+            setMaterialAnimal([]);
         }
     }
 
     function defineRacaAnimals(idRaca: string) {
         const RacaName = racas?.find((item) => item.cod_raca === idRaca.toLowerCase())?.descricao
 
-        if(RacaName){
+        if (RacaName) {
             return RacaName
         }
 
         return 'Sem Raça'
     }
-    
+
     function defineTypeMaterialAnimal() {
         let newMaterialAnimal: MaterialAnimalType[] = [];
         if (materialName === 'Semens') {
@@ -75,7 +76,8 @@ export default function MaterialAnimal({ route }: { route: MaterialAnimalRoutePa
                         newMaterialAnimal.push({
                             brinco: doador.brinco,
                             raca: doador.cod_raca,
-                            qtd: materialAnimal.Quantidade
+                            qtd: materialAnimal.Quantidade,
+                            sexo: doador.sexo
                         });
                     } else {
                         newMaterialAnimal[doadorExistsIndex].qtd += materialAnimal.Quantidade;
@@ -93,7 +95,8 @@ export default function MaterialAnimal({ route }: { route: MaterialAnimalRoutePa
                         newMaterialAnimal.push({
                             brinco: doadora.brinco,
                             raca: doadora.cod_raca,
-                            qtd: materialAnimal.Quantidade
+                            qtd: materialAnimal.Quantidade,
+                            sexo: doadora.sexo
                         });
                     } else {
                         newMaterialAnimal[doadoraExistsIndex].qtd += materialAnimal.Quantidade;
@@ -108,12 +111,9 @@ export default function MaterialAnimal({ route }: { route: MaterialAnimalRoutePa
 
     useEffect(() => {
         defineTypeMaterialAnimal();
-        
-    }, [])
-    console.log('Semen', materialDoadores);
-    console.log('Oocito', materialDoadoras);
 
-    console.log('Materiais por animal', materialAnimal)
+    }, []);
+
     return (
         <Container>
             <BackOption
@@ -129,7 +129,7 @@ export default function MaterialAnimal({ route }: { route: MaterialAnimalRoutePa
                     placeholder="Pesquise por raça ou brinco"
                     onChangeText={(text) => {
                         defineTypeMaterialAnimal();
-                        searchByRaca(text); 
+                        searchByRaca(text);
                     }}
                 />
                 <Title
@@ -157,6 +157,7 @@ export default function MaterialAnimal({ route }: { route: MaterialAnimalRoutePa
                 renderItem={({ item, index }) => (
                     <CardMaterialAnimal
                         key={index}
+                        sexo={item.sexo}
                         brinco={item.brinco}
                         qtd={item.qtd}
                         raca={defineRacaAnimals(item.raca)}
