@@ -18,7 +18,7 @@ type FormIp = {
 }
 
 const ipSchema = yup.object({
-    ip: yup.string().required('Informe o ip local do servidor').min(12, 'Ip inválido')
+    ip: yup.string().required('Informe o ip local do servidor')
 });
 
 export default function RegisterIp() {
