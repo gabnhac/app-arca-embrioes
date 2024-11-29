@@ -85,8 +85,8 @@ export default function MaterialDetails() {
                     <CardInfoMaterial
                         macho={'M'}
                         femea={'F'}
-                        dataFecundacao={'FEC.'}
-                        dataCongelamento={'CONG'}
+                        dataFecundacao={'COL.'}
+                        dataCongelamento={'CONG.'}
                         dataDescongelamento={'DESCON.'}
                     />
                     <FlatList

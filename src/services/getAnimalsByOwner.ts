@@ -20,7 +20,7 @@ export default async function getAnimalsByOwner(id: number): Promise<AnimalType[
             const jsonData: AnimalType[] = JSON.parse(responseString.slice(jsonStartIndex - 1));
             return jsonData;
         }else{
-            console.log("Dados JSON de animais não encontrados na resposta.");
+            console.log("Dados JSON de animais não encontrados na resposta (getAnimalsByOwner).");
             return [];
         }
     

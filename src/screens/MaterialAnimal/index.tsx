@@ -8,7 +8,7 @@ import CardMaterialAnimal from "@components/CardMaterialAnimal";
 import { FlatList } from "react-native";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { selectDoadorasRedux, selectDoadoresRedux, selectOocitoByDoadorasRedux, selectSemenByDoadoresRedux } from "@store/animal/reportSlice";
+import { selectDoadorasRedux, selectDoadoresRedux, selectOocitoByDoadorasRedux, selectRacasRedux, selectSemenByDoadoresRedux } from "@store/animal/reportSlice";
 
 type MaterialAnimalRouteParams = RouteProp<AppRoutes, 'material_animal'>;
 
@@ -26,6 +26,8 @@ export default function MaterialAnimal({ route }: { route: MaterialAnimalRoutePa
     const doadoras = useSelector(selectDoadorasRedux);
     const materialDoadoras = useSelector(selectOocitoByDoadorasRedux);
     const materialDoadores = useSelector(selectSemenByDoadoresRedux);
+
+    const racas = useSelector(selectRacasRedux);
 
     const [materialAnimal, setMaterialAnimal] = useState<MaterialAnimalType[]>();
 
@@ -51,11 +53,20 @@ export default function MaterialAnimal({ route }: { route: MaterialAnimalRoutePa
             setMaterialAnimal([]);  
         }
     }
+
+    function defineRacaAnimals(idRaca: string) {
+        const RacaName = racas?.find((item) => item.cod_raca === idRaca.toLowerCase())?.descricao
+
+        if(RacaName){
+            return RacaName
+        }
+
+        return 'Sem Raça'
+    }
     
     function defineTypeMaterialAnimal() {
         let newMaterialAnimal: MaterialAnimalType[] = [];
         if (materialName === 'Semens') {
-            console.log('Semen')
             for (const materialAnimal of materialDoadores) {
                 const doador = doadores.find((item) => item.id_animal === materialAnimal.id_animal)
                 if (doador) {
@@ -97,9 +108,12 @@ export default function MaterialAnimal({ route }: { route: MaterialAnimalRoutePa
 
     useEffect(() => {
         defineTypeMaterialAnimal();
+        
     }, [])
+    console.log('Semen', materialDoadores);
+    console.log('Oocito', materialDoadoras);
 
-    console.log(materialAnimal)
+    console.log('Materiais por animal', materialAnimal)
     return (
         <Container>
             <BackOption
@@ -145,7 +159,7 @@ export default function MaterialAnimal({ route }: { route: MaterialAnimalRoutePa
                         key={index}
                         brinco={item.brinco}
                         qtd={item.qtd}
-                        raca={item.raca}
+                        raca={defineRacaAnimals(item.raca)}
                     />
 
                 )}

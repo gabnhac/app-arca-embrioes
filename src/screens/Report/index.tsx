@@ -11,7 +11,7 @@ import ModalEmbriao from "@components/ModalEmbriao";
 import ModalMateriais from "@components/ModalOocito";
 import getSemenByAnimal from "@services/getSemenByAnimal";
 import { useDispatch, useSelector } from "react-redux";
-import { selectDoadorasRedux, selectDoadoresRedux, setEmbrioesRedux, setOocitoByDoadorasRedux, setSemenByDoadoresRedux } from "@store/animal/reportSlice";
+import { selectDoadorasRedux, selectDoadoresRedux, selectEmbrioesRedux, selectOocitoByDoadorasRedux, selectSemenByDoadoresRedux, setEmbrioesRedux, setOocitoByDoadorasRedux, setSemenByDoadoresRedux } from "@store/animal/reportSlice";
 import getOocitoByAnimal from "@services/getOocitoByAnimal";
 import ModalOocito from "@components/ModalOocito";
 import ModalSemen from "@components/ModalSemen";
@@ -27,62 +27,40 @@ export default function Report() {
     const doadoras = useSelector(selectDoadorasRedux);
     const doadores = useSelector(selectDoadoresRedux);
 
-    const [embrioes, setEmbrioes] = useState<EmbriaoType[]>();
+    const embrioesRedux = useSelector(selectEmbrioesRedux);
+    const semenRedux = useSelector(selectSemenByDoadoresRedux);
+    const oocitoRedux = useSelector(selectOocitoByDoadorasRedux);
+
+    console.log('embrioesRedux', embrioesRedux);
+    console.log('semenRedux', semenRedux);
+    console.log('oocitoRedux', oocitoRedux);
+
     const [countOocitos, setCountOocitos] = useState(0);
     const [countSemen, setCountSemen] = useState(0);
 
     const [reloadScreen, setReloadScreen] = useState(0);
 
-    async function loadEmbrioes() {
-        const response = await getEmbrioesByOwner(user.id);
-
-        if (response && response.length > 0) {
-            dispatch(setEmbrioesRedux(response));
-            setEmbrioes(response);
-        }
-    }
-
-
-    async function loadSemen() {
-        const idDoadores = doadores.map((item) => item.id_animal.toString());
-
+    function calculateTotalSemen(){
         let total = 0;
-
-        const response = await getSemenByAnimal(idDoadores);
-
-        if (response) {
-            dispatch(setSemenByDoadoresRedux(response));
-            for (const material of response) {
-                total += material.Quantidade;
-            }
-            setCountSemen(total);
+        for (const material of semenRedux) {
+            total += material.Quantidade;
         }
-
+        setCountSemen(total);
     }
 
-    async function loadOocito() {
-        const idDoadoras = doadoras.map((item) => item.id_animal.toString());
-
+    function calculateTotalOocito(){
         let total = 0;
-
-        const response = await getOocitoByAnimal(idDoadoras);
-
-        if (response) {
-
-            dispatch(setOocitoByDoadorasRedux(response));
-            for (const material of response) {
-                total += material.Quantidade;
-            }
-            setCountOocitos(total);
+        for (const material of oocitoRedux) {
+            total += material.Quantidade;
         }
-
-
+        setCountOocitos(total);
     }
+
+
 
     useEffect(() => {
-        loadEmbrioes();
-        loadSemen();
-        loadOocito();
+        calculateTotalSemen();
+        calculateTotalOocito();
     }, [reloadScreen]);
 
     const [isVisibleEmbriao, setIsVisibleEmbriao] = useState(false);
@@ -159,7 +137,7 @@ export default function Report() {
                 <CardStock
                     color="LIGHT_BLUE"
                     borderRadius="FULL"
-                    count={embrioes?.length || 0}
+                    count={embrioesRedux?.length || 0}
                     description="Total Embriões"
                     size="LARGE"
                     onPress={() => navigation.navigate('material_details')}

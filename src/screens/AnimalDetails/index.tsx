@@ -43,7 +43,6 @@ export default function AnimalDetails() {
 
     const racas = useSelector(selectRacasRedux);
     
-    console.log(racaSelected)
     const optionsSexo = ['M', 'F'];
 
     const { brinco, nome, peso, raca, sexo } = useSelector(selectAnimal);
@@ -64,6 +63,10 @@ export default function AnimalDetails() {
 
     function setSexo(sexo: SexoType) {
         setSexoSelected(sexo);
+    }
+
+    function defineOptionsRaca(){
+        return racas.map((item) => item.descricao)
     }
 
     async function handleRegisterAnimal({brinco, nome, peso}: FormDataProps) {
@@ -92,9 +95,15 @@ export default function AnimalDetails() {
         }
     }
 
-    function setRaca(raca: string){
-        setRacaSelected(raca);
+    function setRaca(racaDescricao: string){
+        const racaSelected = racas.find((item) => item.descricao === racaDescricao)?.cod_raca
+
+        if(racaSelected){
+            setRacaSelected(racaSelected);
+        }
     }
+
+    
 
     return (
         <Container>
@@ -160,7 +169,7 @@ export default function AnimalDetails() {
 
                         {isAdd ? <Select
                             label="Raça"
-                            options={['A','B', 'C']}
+                            options={defineOptionsRaca()}
                             setOption={setRaca}
                             
                         />
@@ -209,6 +218,17 @@ export default function AnimalDetails() {
                                         editable={false}
                                         value={peso.toString()}
                                     />
+                                }
+                            </ShortInfo>
+                            <ShortInfo>
+                                {!isAdd ?
+                                    <Input
+                                        label="Material"
+                                        editable={false}
+                                        value={sexo}
+                                    />
+                                    :
+                                    null
                                 }
                             </ShortInfo>
                         </WrapperShortInfos>

@@ -9,8 +9,6 @@ export const Container = styled(SafeAreaView)`
 export const WraperContent = styled.View`
     flex: 1;
     
-
-    justify-content: center;
     align-items: center;
 `;
 

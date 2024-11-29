@@ -4,11 +4,12 @@ import { RootState } from "..";
 import { SemenType } from "@services/getSemenByAnimal";
 import { OocitoType } from "@services/getOocitoByAnimal";
 import { EmbriaoType } from "@services/getEmbrioesByOwner";
+import { RacaType } from "@services/getRacas";
 
 type ReportState = {
   doadoras: AnimalType[];
   doadores: AnimalType[];
-  racas: [];
+  racas: RacaType[];
   semenByDoadores: SemenType[];
   oocitoByDoadoras: OocitoType[];
   embrioes: EmbriaoType[];
@@ -17,7 +18,7 @@ type ReportState = {
 const initialState: ReportState = {
   doadoras: [],
   doadores: [],
-  racas: [],
+  racas: [] as RacaType[],
   semenByDoadores: [],
   oocitoByDoadoras: [],
   embrioes: [],
@@ -33,7 +34,7 @@ export const reportSlice = createSlice({
     setDoadoresRedux: (state, { payload }: PayloadAction<AnimalType[]>) => {
       state.doadores = payload;
     },
-    setRacasRedux: (state, { payload }: PayloadAction<[]>) => {
+    setRacasRedux: (state, { payload }: PayloadAction<RacaType[]>) => {
       state.racas = payload;
     },
     setSemenByDoadoresRedux: (state, { payload }: PayloadAction<SemenType[]>) => {
@@ -58,7 +59,7 @@ export const selectDoadorasRedux = (state: RootState): AnimalType[] =>
 export const selectDoadoresRedux = (state: RootState): AnimalType[] =>
   state.report.doadores;
 
-export const selectRacasRedux = (state: RootState): [] =>
+export const selectRacasRedux = (state: RootState): RacaType[] =>
   state.report.racas;
 
 export const selectSemenByDoadoresRedux = (state: RootState): SemenType[] =>

@@ -1,6 +1,6 @@
 import { api } from "./api";
 
-type RacaType = {
+export type RacaType = {
     cod_raca: string;
     descricao: string;
 };

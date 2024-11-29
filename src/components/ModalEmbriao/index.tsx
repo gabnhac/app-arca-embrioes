@@ -15,7 +15,7 @@ type Props = ModalProps & {
     visible: boolean;
     onClose: () => void;
     machos: AnimalType[];
-    femeas: AnimalType[]
+    femeas: AnimalType[];
 };
 
 export default function ModalEmbriao({ visible, onClose, machos, femeas, ...rest }: Props) {
@@ -29,8 +29,8 @@ export default function ModalEmbriao({ visible, onClose, machos, femeas, ...rest
     const [showDataCon, setShowDataCon] = useState(false);
     const [showDataDes, setShowDataDes] = useState(false);
 
-    const optionsFemea = femeas.map((item) => item.brinco );
-    const optionsMacho = machos.map((item) => item.brinco );
+    const optionsFemea = femeas.map((item) => item.brinco);
+    const optionsMacho = machos.map((item) => item.brinco);
 
     const formatDate = (date: Date) => {
         return new Intl.DateTimeFormat('pt-BR', {
@@ -67,33 +67,34 @@ export default function ModalEmbriao({ visible, onClose, machos, femeas, ...rest
         }
     }
 
-    function defineMachoSelected(brinco: string){
+    function defineMachoSelected(brinco: string) {
         const macho = machos.find((item) => item.brinco === brinco)
-        if(macho)
+        if (macho)
             setMachoSelected(macho);
     }
-    function defineFemeaSelected(brinco: string){
+
+    function defineFemeaSelected(brinco: string) {
         const femea = femeas.find((item) => item.brinco === brinco)
-        if(femea)
+        if (femea)
             setFemeaSelected(femea);
     }
 
-    async function handleRegisterEmbriao(){
+    async function handleRegisterEmbriao() {
         const response = await postEmbriao({
             id_macho: machoSelected.id_animal,
             id_femea: femeaSelected.id_animal,
             data_fecundacao: dataColeta,
             data_congelamento: dataCongelamento,
             data_descongelamento: dataDescongelamento
-        })
+        });
 
-        if(response?.status === 200){
+        if (response?.status === 200) {
             Toast.show({
                 type: 'success',
                 position: 'bottom',
                 text1: 'Embrião criado'
             });
-        }else{
+        } else {
             Toast.show({
                 type: 'error',
                 position: 'bottom',
@@ -180,23 +181,16 @@ export default function ModalEmbriao({ visible, onClose, machos, femeas, ...rest
                                     onPress={() => setShowDataDes((prev) => !prev)}
                                 >
                                     <Input
-                                        placeholder={
-                                            dataDescongelamento !== null ?
-                                            formatDate(dataDescongelamento)
-                                            :
-                                            ''
-                                        }
+                                        placeholder={dataDescongelamento ? formatDate(dataDescongelamento) : ''}
                                         editable={false}
                                     />
                                 </WrapperPressableInput>
                             </WrapperInfoInput>
                             <Button
                                 label="Criar"
-                                onPress={
-                                    handleRegisterEmbriao
-                                }
+                                onPress={handleRegisterEmbriao}
                                 colorType="SECONDARY"
-                                style={{alignSelf: 'center'}}
+                                style={{ alignSelf: 'center' }}
                             />
                         </Content>
                     </TouchableWithoutFeedback>

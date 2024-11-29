@@ -29,8 +29,11 @@ import Feather from '@expo/vector-icons/Feather';
 
 import theme from "@theme/index";
 import Loading from "@components/Loading";
-import { setDoadorasRedux, setDoadoresRedux } from "@store/animal/reportSlice";
-import getRacas from "@services/getRacas";
+import { setDoadorasRedux, setDoadoresRedux, setEmbrioesRedux, setOocitoByDoadorasRedux, setRacasRedux, setSemenByDoadoresRedux } from "@store/animal/reportSlice";
+import getRacas, { RacaType } from "@services/getRacas";
+import getEmbrioesByOwner from "@services/getEmbrioesByOwner";
+import getSemenByAnimal from "@services/getSemenByAnimal";
+import getOocitoByAnimal from "@services/getOocitoByAnimal";
 
 
 export default function Home() {
@@ -39,22 +42,21 @@ export default function Home() {
 
     const [doadoras, setDoadoras] = useState<AnimalType[]>();
     const [doadores, setDoadores] = useState<AnimalType[]>();
+    const [racas, setRacas] = useState<RacaType[]>();
     const [isLoading, setIsLoading] = useState(false);
-    const [isResponse, setIsResponse] = useState(false);
     const [isSelectedDoadoras, setIsSelectedDoadoras] = useState(true);
 
     const navigation = useNavigation<AppNavigatorRouteProps>();
 
     const dispatch = useDispatch();
 
-    async function loadAnimals(id: number) {
+    async function loadAll(id: number) {
         setIsLoading(true);
         const response = await getAnimalsByOwner(id);
 
         if (!response) {
             return
         }
-        setIsResponse(true);
         let doadoresArr = [];
         let doadorasArr = [];
         for (const animal of response) {
@@ -69,12 +71,40 @@ export default function Home() {
         dispatch(setDoadorasRedux(doadorasArr));
         dispatch(setDoadoresRedux(doadoresArr));
         setIsLoading(false);
+
+        //Embriao
+        const responseEmbriao = await getEmbrioesByOwner(user.id);
+
+        if (responseEmbriao && responseEmbriao.length > 0) {
+            console.log('DADOS EMBRIAO', responseEmbriao);
+            dispatch(setEmbrioesRedux(responseEmbriao));
+        }
+
+        //Semen
+        const idDoadores = doadoresArr?.map((item) => item.id_animal.toString()) || [];
+        const responseSemen = await getSemenByAnimal(idDoadores);
+
+        if (responseSemen) {
+            console.log('DADOS SEMEN', responseSemen);
+            dispatch(setSemenByDoadoresRedux(responseSemen));
+        }
+
+        //Oocito
+        const idDoadoras = doadorasArr?.map((item) => item.id_animal.toString()) || [];
+        console.log('IDDOADORAS', idDoadoras)
+        const responseOocito = await getOocitoByAnimal(idDoadoras);
+
+        if (responseOocito) {
+            console.log('DADOS OOCITO', responseOocito);
+            dispatch(setOocitoByDoadorasRedux(responseOocito));
+        }
     }
 
     async function loadRacas() {
         const response =  await getRacas();
         if(response){
-            console.log('RACAS', response);
+            setRacas(response);
+            dispatch(setRacasRedux(response));
         }
     }
 
@@ -91,6 +121,16 @@ export default function Home() {
         navigation.navigate('animal_details');
     }
 
+    function defineRacaAnimals(idRaca: string) {
+        const RacaName = racas?.find((item) => item.cod_raca === idRaca.toLowerCase())?.descricao
+
+        if(RacaName){
+            return RacaName
+        }
+
+        return 'Sem Raça'
+    }
+
     function handleChangeAnimalCategories(categoria: 'DOADORAS' | 'DOADORES') {
         if (categoria === 'DOADORAS') {
 
@@ -103,13 +143,13 @@ export default function Home() {
 
     useFocusEffect(
         React.useCallback(() => {
-            loadAnimals(user.id);
+            loadAll(user.id);
             loadRacas();
             return () => {
 
             }
         }, [])
-    )
+    );
 
     return (
         <Container>
@@ -182,13 +222,13 @@ export default function Home() {
                             <View style={{ marginBottom: 10 }} >
                                 <CardAnimal
                                     key={index}
-                                    raca={'A'}
+                                    raca={defineRacaAnimals(item.cod_raca)}
                                     peso={item.peso}
                                     brinco={item.brinco}
                                     onPress={() =>
                                         handleSelectAnimal(
                                             {
-                                                raca: 'A',
+                                                raca: defineRacaAnimals(item.cod_raca),
                                                 brinco: item.brinco,
                                                 material: 10,
                                                 nome: item.nome,

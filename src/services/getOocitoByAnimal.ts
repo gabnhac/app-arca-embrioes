@@ -23,7 +23,6 @@ export default async function getOocitoByAnimal(idAnimal: string[]): Promise<Ooc
         const results = await Promise.all(promises);
 
         const jsonData = results.flat();
-
         return jsonData;
 
     } catch (error) {
