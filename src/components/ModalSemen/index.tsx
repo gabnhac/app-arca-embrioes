@@ -49,7 +49,6 @@ export default function ModalSemen({ onClose, machos, ...rest }: Props) {
     function defineMachoSelected(brinco: string) {
         const macho = machos.find((item) => item.brinco === brinco);
         if (macho) {
-            console.log("Fêmea Selecionada", macho);
             setAnimalSelected(macho);
         }
     }

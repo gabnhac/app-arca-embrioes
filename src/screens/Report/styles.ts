@@ -5,7 +5,7 @@ export const Container = styled(SafeAreaView)`
     flex: 1;
     align-items: center;
 
-    background-color: ${({theme}) => theme.COLORS.RUSSIAN_VIOLET};
+    background-color: ${({ theme }) => theme.COLORS.RUSSIAN_VIOLET};
 `;
 
 export const WrapperTitle = styled.View`
@@ -26,4 +26,14 @@ export const WrapperStockCards = styled.View`
     justify-content: space-around;
     margin-top: 20px;
     gap: 30px;
+`;
+
+export const WrapperAllStockCards = styled.View`
+    align-items: center;
+`;
+
+export const WrapperTouchableGraph = styled.TouchableOpacity`
+    margin-right: 40px;
+    margin-bottom: 20px;
+    align-self: flex-end;
 `;

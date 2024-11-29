@@ -16,13 +16,13 @@ export const Container = styled.View`
 export const Content = styled.View`
     background-color: #FFFFFF;
     width: 60%;
-    height: 270px;
+    height: 30%;
 
-    justify-content: center;
 
     border-radius: 15px;
     border-left-width: 20px;
     border-left-color: ${({theme}) => theme.COLORS.FRENCH_BLUE};
+    
 
     padding: 10px;
     gap: 2px;
@@ -30,10 +30,14 @@ export const Content = styled.View`
 
 export const InfoText = styled.Text`
     font-family: ${({theme}) => theme.FONT_FAMILY.BODY};
-    font-size: 15px;
-    margin-bottom: 5px;
+    font-size: 17px;
+    margin-top: 5px;
 `;
 
 export const WrapperInfoInput = styled.View`
+    flex: 1;
+    justify-content: center;
 
 `;
+
+export const WrapperPressableInput = styled(Pressable)``;

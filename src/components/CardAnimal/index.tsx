@@ -5,12 +5,12 @@ import Title from "@components/Title/Title";
 type Props = TouchableOpacityProps & {
     raca: string;
     peso: number;
+    sexo: string;
     brinco: string | number;
 }
-//padronizar as raças posssíveis com enum
-//padronizar o brinco, que pode ser string | number
-export default function CardAnimal({raca, peso, brinco, ...rest}: Props){
-    return(
+
+export default function CardAnimal({ raca, peso, brinco, sexo, ...rest }: Props) {
+    return (
         <Container
             {...rest}
         >
@@ -30,10 +30,18 @@ export default function CardAnimal({raca, peso, brinco, ...rest}: Props){
             </WrapperInfo>
 
             <WrapperImage>
-                <Image
-                    source={require('@assets/vaca.jpg')}
-                    style={{width: '100%', height: '100%', objectFit: 'cover', borderTopRightRadius: 10, borderBottomRightRadius: 10}}
-                />
+                {sexo === 'M' || sexo === 'm' ?
+                    <Image
+                        source={require('@assets/boi.jpg')}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover', borderTopRightRadius: 10, borderBottomRightRadius: 10 }}
+                    />
+                    :
+                    <Image
+                        source={require('@assets/vaca.jpg')}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover', borderTopRightRadius: 10, borderBottomRightRadius: 10 }}
+                    />
+
+                }
             </WrapperImage>
         </Container>
     )

@@ -8,8 +8,6 @@ import Button from "@components/Button";
 import { AnimalType } from "@services/getAnimalsByOwner";
 import postEmbriao from "@services/postEmbriao";
 import Toast from "react-native-toast-message";
-import { useNavigation } from "@react-navigation/native";
-import { AppNavigatorRouteProps } from "@routes/app.routes";
 
 type Props = ModalProps & {
     visible: boolean;
@@ -41,31 +39,31 @@ export default function ModalEmbriao({ visible, onClose, machos, femeas, ...rest
     };
 
     const onChangeCo = (event: any, selectedDate?: Date) => {
-        if (selectedDate) {
+        setShowDataCo(false); // Sempre fecha o seletor antes de processar
+
+        if (event.type === "set" && selectedDate) {
             setDataColeta(selectedDate);
-        }
-        if (Platform.OS === 'android') {
-            setShowDataCo(false);
         }
     };
 
     const onChangeCon = (event: any, selectedDate?: Date) => {
-        if (selectedDate) {
+        setShowDataCon(false);
+
+        if (event.type === "set" && selectedDate) {
             setDataCongelamento(selectedDate);
-        }
-        if (Platform.OS === 'android') {
-            setShowDataCon(false);
         }
     };
 
     const onChangeDes = (event: any, selectedDate?: Date) => {
-        if (selectedDate) {
+        setShowDataDes(false);
+
+        if (event.type === "set" && selectedDate) {
             setDataDescongelamento(selectedDate);
         }
-        if (Platform.OS === 'android') {
-            setShowDataDes(false);
-        }
-    }
+    };
+
+
+
 
     function defineMachoSelected(brinco: string) {
         const macho = machos.find((item) => item.brinco === brinco)
@@ -112,7 +110,7 @@ export default function ModalEmbriao({ visible, onClose, machos, femeas, ...rest
                 }}
             >
                 <Container>
-                    <TouchableWithoutFeedback onPress={() => {}}>
+                    <TouchableWithoutFeedback onPress={() => { }}>
                         <Content>
                             <InfoText style={{ alignSelf: 'center' }}>Adicione um Embrião</InfoText>
                             <WrapperInfoInput>
@@ -140,13 +138,18 @@ export default function ModalEmbriao({ visible, onClose, machos, femeas, ...rest
                                     />
                                 )}
                                 <WrapperPressableInput
-                                    onPress={() => setShowDataCo((prev) => !prev)}
+                                    onPress={() => {
+                                        if (!showDataCo) {
+                                            setShowDataCo(true); // Abre apenas se estiver fechado
+                                        }
+                                    }}
                                 >
                                     <Input
                                         placeholder={formatDate(dataColeta)}
                                         editable={false}
                                     />
                                 </WrapperPressableInput>
+
                             </WrapperInfoInput>
                             <WrapperInfoInput>
                                 <InfoText>Data Congelamento</InfoText>
@@ -159,7 +162,11 @@ export default function ModalEmbriao({ visible, onClose, machos, femeas, ...rest
                                     />
                                 )}
                                 <WrapperPressableInput
-                                    onPress={() => setShowDataCon((prev) => !prev)}
+                                    onPress={() => {
+                                        if (!showDataCon) {
+                                            setShowDataCon(true);
+                                        }
+                                    }}
                                 >
                                     <Input
                                         placeholder={formatDate(dataCongelamento)}
@@ -178,7 +185,11 @@ export default function ModalEmbriao({ visible, onClose, machos, femeas, ...rest
                                     />
                                 )}
                                 <WrapperPressableInput
-                                    onPress={() => setShowDataDes((prev) => !prev)}
+                                    onPress={() => {
+                                        if (!showDataDes) {
+                                            setShowDataDes(true);
+                                        }
+                                    }}
                                 >
                                     <Input
                                         placeholder={dataDescongelamento ? formatDate(dataDescongelamento) : ''}

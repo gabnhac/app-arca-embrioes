@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { FlatList, View } from "react-native";
 
 import {
@@ -32,8 +32,8 @@ import Loading from "@components/Loading";
 import { setDoadorasRedux, setDoadoresRedux, setEmbrioesRedux, setOocitoByDoadorasRedux, setRacasRedux, setSemenByDoadoresRedux } from "@store/animal/reportSlice";
 import getRacas, { RacaType } from "@services/getRacas";
 import getEmbrioesByOwner from "@services/getEmbrioesByOwner";
-import getSemenByAnimal from "@services/getSemenByAnimal";
-import getOocitoByAnimal from "@services/getOocitoByAnimal";
+import getSemenByAnimal, { SemenType } from "@services/getSemenByAnimal";
+import getOocitoByAnimal, { OocitoType } from "@services/getOocitoByAnimal";
 
 
 export default function Home() {
@@ -71,33 +71,6 @@ export default function Home() {
         dispatch(setDoadorasRedux(doadorasArr));
         dispatch(setDoadoresRedux(doadoresArr));
         setIsLoading(false);
-
-        //Embriao
-        const responseEmbriao = await getEmbrioesByOwner(user.id);
-
-        if (responseEmbriao && responseEmbriao.length > 0) {
-            console.log('DADOS EMBRIAO', responseEmbriao);
-            dispatch(setEmbrioesRedux(responseEmbriao));
-        }
-
-        //Semen
-        const idDoadores = doadoresArr?.map((item) => item.id_animal.toString()) || [];
-        const responseSemen = await getSemenByAnimal(idDoadores);
-
-        if (responseSemen) {
-            console.log('DADOS SEMEN', responseSemen);
-            dispatch(setSemenByDoadoresRedux(responseSemen));
-        }
-
-        //Oocito
-        const idDoadoras = doadorasArr?.map((item) => item.id_animal.toString()) || [];
-        console.log('IDDOADORAS', idDoadoras)
-        const responseOocito = await getOocitoByAnimal(idDoadoras);
-
-        if (responseOocito) {
-            console.log('DADOS OOCITO', responseOocito);
-            dispatch(setOocitoByDoadorasRedux(responseOocito));
-        }
     }
 
     async function loadRacas() {
@@ -223,6 +196,7 @@ export default function Home() {
                                 <CardAnimal
                                     key={index}
                                     raca={defineRacaAnimals(item.cod_raca)}
+                                    sexo={item.sexo}
                                     peso={item.peso}
                                     brinco={item.brinco}
                                     onPress={() =>

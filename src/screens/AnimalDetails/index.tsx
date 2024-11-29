@@ -220,17 +220,6 @@ export default function AnimalDetails() {
                                     />
                                 }
                             </ShortInfo>
-                            <ShortInfo>
-                                {!isAdd ?
-                                    <Input
-                                        label="Material"
-                                        editable={false}
-                                        value={sexo}
-                                    />
-                                    :
-                                    null
-                                }
-                            </ShortInfo>
                         </WrapperShortInfos>
 
                     </BodyInfo>

@@ -52,7 +52,6 @@ export default function RegisterOwner() {
         const cnpjFormat = cnpj.replace(/\D/g, '');
         const telNumber = Number(tel.replace(/\D/g, ''));
         const ddd = Number(tel[1] + tel[2]);
-        console.log('data',{ cnpjFormat, ddd, email, name, password, telNumber })
         const response = await postOwner({ 
             cnpj: cnpjFormat, 
             email, 

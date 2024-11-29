@@ -16,12 +16,14 @@ export const Container = styled.View`
 export const Content = styled.View`
     background-color: #FFFFFF;
     width: 60%;
-    height: 300px;
+    height: 270px;
 
 
     border-radius: 15px;
     border-left-width: 20px;
     border-left-color: ${({theme}) => theme.COLORS.FRENCH_BLUE};
+
+    justify-content: center;
 
     padding: 10px;
     gap: 2px;
@@ -30,7 +32,7 @@ export const Content = styled.View`
 export const InfoText = styled.Text`
     font-family: ${({theme}) => theme.FONT_FAMILY.BODY};
     font-size: 15px;
-    
+    margin-bottom: 5px;
 `;
 
 export const WrapperInfoInput = styled.View`

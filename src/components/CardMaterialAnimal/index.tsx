@@ -3,18 +3,18 @@ import { Container, TextInfo, TextRaca, WrapperInfo, WrapperInfoQtd, WrapperInfo
 
 type Props = {
     raca: string;
-    tipoMaterial?: string,
     qtd: number;
     brinco: string
+    sexo: string;
 }
 
-export default function CardMaterialAnimal({brinco, qtd, raca, tipoMaterial}: Props){
+export default function CardMaterialAnimal({brinco, qtd, raca, sexo}: Props){
     return(
         <Container>
             <CardAvatar
                 size="SMALL"
                 borderColor="#FFFFFF"
-                imgLocal="VACA"
+                imgLocal={sexo === 'M' || sexo === 'm' ? "BOI" : 'VACA'}
             />
             <WrapperInfo>
                 <WrapperInfoText>

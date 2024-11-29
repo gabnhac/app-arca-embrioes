@@ -13,7 +13,6 @@ export default async function getOocitoByAnimal(idAnimal: string[]): Promise<Ooc
                 const responseString = response.data.toString();
                 const jsonStartIndex = responseString.indexOf('{');
                 if (jsonStartIndex !== -1) {
-
                     return JSON.parse(responseString.slice(jsonStartIndex - 1));
                 }
             }
